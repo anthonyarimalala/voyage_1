@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/voyage/Employe.java</file>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/voyage/Lieu.java</file>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/voyage/Duree.java</file>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/vue/V_Voyage.java</file>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/voyage/Bouquet.java</file>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/utils/U_BouquetActivite.java</file>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/voyage/Activite.java</file>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/liaison/L_BouquetActivite.java</file>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/voyage/Voyage.java</file>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/liaison/L_BouquetEmploye.java</file>
+            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/liaison/L_FormuleComposition.java</file>
+        </group>
+    </open-files>
+</project-private>
