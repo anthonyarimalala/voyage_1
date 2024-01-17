@@ -1,6 +1,7 @@
 
 package model.vue;
 
+import database.Connex;
 import generalise.Column;
 import generalise.CrudOperation;
 import generalise.Table;
@@ -14,6 +15,7 @@ import model.liaison.L_BouquetActivite;
 import model.utils.U_BouquetActivite;
 import model.voyage.Activite;
 import model.voyage.Bouquet;
+import model.voyage.Voyage;
 
 @Table(name="v_voyage")
 public class V_Voyage {
@@ -23,12 +25,21 @@ public class V_Voyage {
 
     @Column(name="id_bouquet")
     int idBouquet;
+    
+    @Column(name="bouquet")
+    String bouquet;
 
     @Column(name="id_lieu")
     int idLieu;
+    
+    @Column(name="lieu")
+    String lieu;
 
     @Column(name="id_duree")
     int idDuree;
+    
+    @Column(name="duree")
+    String duree;
 
     @Column(name="prix")
     double prix;
@@ -39,14 +50,19 @@ public class V_Voyage {
     @Column(name="description")
     String description;
     
-    @Column (name="p_total_activite")
-    double pTotalActivite;
+    @Column(name="prix_tot_activite")
+    double prixTotActivite;
     
-    @Column (name="p_total_employe")
-    double pTotalEmploye;
+    public static void main(String[] args) throws ClassNotFoundException, SQLException{
+        Connection connection = Connex.getConnection();
+        List<V_Voyage> voyages = getAllVoyageByIdActivite(connection, 3);
+        System.out.println(voyages.size());
+        
+        CrudOperation crud = new CrudOperation(connection);
+        crud.selectAll(V_Voyage.class);
+    }
     
-    @Column (name="benefice")
-    double benefice;
+    
     
     public List<V_Voyage> getAllVoyageByBeneficeMinMax(Connection connection, double min, double max) {
         List<V_Voyage> result = new ArrayList<>();
@@ -74,13 +90,12 @@ public class V_Voyage {
         return result;
     }
     
-    public List<V_Voyage> getAllVoyageByTotalActiviteMinMax(Connection connection, double min, double max) {
+    public static List<V_Voyage> getAllVoyageByTotalActiviteMinMax(Connection connection, double min, double max) {
         List<V_Voyage> result = new ArrayList<>();
 
         String sql = "SELECT * " +
                      "FROM v_voyage " +
-                     "WHERE ? <= p_total_activite AND p_total_activite <= ? " +
-                     "GROUP BY id_voyage, id_bouquet, id_lieu, id_duree, prix, voyage, description";
+                     "WHERE ? <= prix_tot_activite AND prix_tot_activite <= ? ";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setDouble(1, min);
@@ -100,13 +115,13 @@ public class V_Voyage {
         return result;
     }
     
-    public List<V_Voyage> getAllVoyageByIdActivite(Connection connection, int idActivite) {
+    public static List<V_Voyage> getAllVoyageByIdActivite(Connection connection, int idActivite) {
         List<V_Voyage> result = new ArrayList<>();
 
-        String sql = "SELECT * " +
-                     "FROM v_voyage " +
-                     "WHERE id_activite = ? " +
-                     "GROUP BY id_voyage, id_bouquet, id_lieu, id_duree, prix, voyage, description";
+        String sql = "SELECT \n" +
+                    "        * \n" +
+                    "    FROM v_voyage_bouquet_activite\n" +
+                    "    WHERE id_activite = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, idActivite);
@@ -130,13 +145,15 @@ public class V_Voyage {
 
         voyage.setIdVoyage(rs.getInt("id_voyage"));
         voyage.setIdBouquet(rs.getInt("id_bouquet"));
+        voyage.setBouquet(rs.getString("bouquet"));
         voyage.setIdLieu(rs.getInt("id_lieu"));
+        voyage.setLieu(rs.getString("lieu"));
         voyage.setIdDuree(rs.getInt("id_duree"));
+        voyage.setLieu(rs.getString("lieu"));
         voyage.setPrix(rs.getDouble("prix"));
         voyage.setVoyage(rs.getString("voyage"));
         voyage.setDescription(rs.getString("description"));
-        voyage.setpTotalActivite(rs.getDouble("p_total_activite"));
-        voyage.setpTotalEmploye(rs.getDouble("p_total_employe"));
+        voyage.setPrixTotActivite(rs.getDouble("prix_tot_activite"));
 
         return voyage;
     }
@@ -160,6 +177,14 @@ public class V_Voyage {
         this.idBouquet = idBouquet;
     }
 
+    public String getBouquet() {
+        return bouquet;
+    }
+
+    public void setBouquet(String bouquet) {
+        this.bouquet = bouquet;
+    }
+
     public int getIdLieu() {
         return idLieu;
     }
@@ -168,12 +193,28 @@ public class V_Voyage {
         this.idLieu = idLieu;
     }
 
+    public String getLieu() {
+        return lieu;
+    }
+
+    public void setLieu(String lieu) {
+        this.lieu = lieu;
+    }
+
     public int getIdDuree() {
         return idDuree;
     }
 
     public void setIdDuree(int idDuree) {
         this.idDuree = idDuree;
+    }
+
+    public String getDuree() {
+        return duree;
+    }
+
+    public void setDuree(String duree) {
+        this.duree = duree;
     }
 
     public double getPrix() {
@@ -200,21 +241,14 @@ public class V_Voyage {
         this.description = description;
     }
 
-    public double getpTotalActivite() {
-        return pTotalActivite;
+    public double getPrixTotActivite() {
+        return prixTotActivite;
     }
 
-    public void setpTotalActivite(double pTotalActivite) {
-        this.pTotalActivite = pTotalActivite;
+    public void setPrixTotActivite(double prixTotActivite) {
+        this.prixTotActivite = prixTotActivite;
     }
 
-    public double getpTotalEmploye() {
-        return pTotalEmploye;
-    }
-
-    public void setpTotalEmploye(double pTotalEmploye) {
-        this.pTotalEmploye = pTotalEmploye;
-    }
     
     
 

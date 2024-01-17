@@ -23,26 +23,6 @@ public class L_BouquetActivite {
     @Column(name="id_activite")
     int idActivite;
     
-    public static List<Activite> getAllActiviteByIdBouquet(Connection connection, int idBouquet){
-        List<Activite> activites = new ArrayList<>();
-
-        String sql = "SELECT * FROM v_bouquet_activite WHERE id_bouquet = ?";
-
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, idBouquet);
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    Activite activite = Activite.mapFromResultSet(resultSet);
-                    activites.add(activite);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // Gérer les exceptions de manière appropriée dans un environnement de production
-        }
-
-        return activites;
-    }
 
     public L_BouquetActivite() {
     }

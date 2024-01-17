@@ -1,20 +1,39 @@
 
 package model.voyage;
 
+import database.Connex;
 import generalise.Column;
+import generalise.CrudOperation;
 import generalise.Table;
+import java.sql.Connection;
+import java.sql.SQLException;
 
-@Table(name="id_employe")
+@Table(name="employe")
 public class Employe {
     
     @Column(name="id_employe", autoIncrement = true, id = true)
     int idEmploye;
     
-    @Column(name="service")
-    String service;
+    @Column(name="nom")
+    String nom;
+    
+    @Column(name="fonction")
+    String fonction;
     
     @Column(name="prix")
     double prix;
+    
+    public static void main(String[] args) throws ClassNotFoundException, SQLException{
+        Connection connection = Connex.getConnection();
+        CrudOperation crud = new CrudOperation(connection);
+        
+        Employe employe = new Employe();
+        employe.setNom("Sarobidy");
+        employe.setFonction("Masseuse");
+        employe.setPrix(20000);
+        
+        crud.save(employe);
+    }
 
     public Employe() {
     }
@@ -27,12 +46,12 @@ public class Employe {
         this.idEmploye = idEmploye;
     }
 
-    public String getService() {
-        return service;
+    public String getFonction() {
+        return fonction;
     }
 
-    public void setService(String service) {
-        this.service = service;
+    public void setFonction(String fonction) {
+        this.fonction = fonction;
     }
 
     public double getPrix() {
@@ -41,6 +60,14 @@ public class Employe {
 
     public void setPrix(double prix) {
         this.prix = prix;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
     
     

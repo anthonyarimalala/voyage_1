@@ -303,6 +303,25 @@ public class CrudOperation {
         }
     }
     
+    public <T> void delete(Class<T> clazz, String column, Object id) {
+        if (!clazz.isAnnotationPresent(Table.class)) {
+            throw new IllegalArgumentException("Class must be annotated with @Table");
+        }
+
+        Table tableAnnotation = clazz.getAnnotation(Table.class);
+        String tableName = tableAnnotation.name();
+
+        String query = "DELETE FROM " + tableName + " WHERE " + column + " = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setObject(1, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Data deleted successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public <T> void modifFromQuery(String query) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
