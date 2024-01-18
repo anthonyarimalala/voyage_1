@@ -60,6 +60,14 @@
         <servlet-name>InsererFormuleCompositionServlet</servlet-name>
         <servlet-class>servlet.insertion.InsererFormuleCompositionServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InsererStockServlet</servlet-name>
+        <servlet-class>servlet.insertion.InsererStockServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsererReservationServlet</servlet-name>
+        <servlet-class>servlet.insertion.InsererReservationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ToHome</servlet-name>
         <url-pattern>/ToHome</url-pattern>
@@ -119,6 +127,14 @@
     <servlet-mapping>
         <servlet-name>InsererFormuleCompositionServlet</servlet-name>
         <url-pattern>/InsererFormuleCompositionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsererStockServlet</servlet-name>
+        <url-pattern>/InsererStockServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsererReservationServlet</servlet-name>
+        <url-pattern>/InsererReservationServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

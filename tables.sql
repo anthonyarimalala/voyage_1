@@ -52,3 +52,11 @@ CREATE TABLE l_formule_composition (
     quantite FLOAT NOT NULL
 );
 
+CREATE TABLE stock (
+    id_stock SERIAL PRIMARY KEY,
+    date_modif DATE DEFAULT CURRENT_DATE,
+    id_activite INT REFERENCES activite(id_activite),
+    entree FLOAT,
+    sortie FLOAT
+);
+

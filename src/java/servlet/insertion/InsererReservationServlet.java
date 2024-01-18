@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.pages;
+package servlet.insertion;
 
 import database.Connex;
 import generalise.CrudOperation;
@@ -18,13 +18,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.voyage.Activite;
+import model.voyage.Stock;
+import model.vue.V_Stock;
+import model.vue.V_StockQuantiteReste;
 import model.vue.V_Voyage;
 
 /**
  *
  * @author PC
  */
-public class ToListerVoyage extends HttpServlet {
+public class InsererReservationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +46,10 @@ public class ToListerVoyage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ToListerVoyage</title>");            
+            out.println("<title>Servlet InsererReservationServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ToListerVoyage at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet InsererReservationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
             
@@ -54,50 +57,31 @@ public class ToListerVoyage extends HttpServlet {
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 
-                String successMessage = (String)request.getAttribute("successMessage");
-                String errorMessage = (String)request.getAttribute("errorMessage");
+                int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+                List<V_StockQuantiteReste> quantiteReste = V_StockQuantiteReste.ampy(connection, idVoyage, 1);
                 
-                if(errorMessage!=null && !errorMessage.isEmpty()){
-                    request.setAttribute("errorMessage", errorMessage);
-                }
-                if(successMessage!=null && !successMessage.isEmpty()){
-                    request.setAttribute("successMessage", successMessage);
-                }
+                Stock stock = new Stock();
                 
-                List<Activite> activites = crud.selectAll(Activite.class);
-                request.setAttribute("activites", activites);
-                
-                String idActiviteStr = request.getParameter("idActivite");
-                String prixMinStr = request.getParameter("prixMin");
-                String prixMaxStr = request.getParameter("prixMax");
-                
-                List<V_Voyage> v_voyages = new ArrayList<>();
-                
-                if(idActiviteStr!=null && !idActiviteStr.isEmpty()){
-                    int idActivite = Integer.parseInt(idActiviteStr);
-                    v_voyages = V_Voyage.getAllVoyageByIdActivite(connection, idActivite);
+                for(int i=0; i<quantiteReste.size(); i++){
+                    stock.setIdActivite(quantiteReste.get(i).getIdActivite());
+                    stock.setEntree(0);
+                    stock.setSortie(quantiteReste.get(i).getQuantiteHiala());
                     
+                    crud.save(stock);
                 }
-                else if(prixMinStr!=null && !prixMinStr.isEmpty() && prixMaxStr!=null && !prixMaxStr.isEmpty()){
-                    double prixMin = Double.parseDouble(prixMinStr);
-                    double prixMax = Double.parseDouble(prixMaxStr);
-                    
-                    v_voyages = V_Voyage.getAllVoyageByTotalActiviteMinMax(connection, prixMin, prixMax);
-                }
-                else{
-                    v_voyages  = crud.selectAll(V_Voyage.class);
-                }
-
                 
-                request.setAttribute("v_voyages", v_voyages);
+                request.setAttribute("successMessage", "Vous avez réservé pour ce voyage");
                 
                 
                 connection.close();
-                RequestDispatcher dispatcher = request.getRequestDispatcher("pages/lister/listerVoyage.jsp");
-                dispatcher.forward(request, response);
+                
             }catch(Exception e){
-                e.printStackTrace(out);
+                request.setAttribute("errorMessage", e.getMessage());
             }
+            
+            RequestDispatcher dispatcher = request.getRequestDispatcher("ToListerVoyage");
+            dispatcher.forward(request, response);
+            
         }
     }
 

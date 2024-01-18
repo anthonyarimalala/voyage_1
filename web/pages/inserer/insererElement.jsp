@@ -103,6 +103,33 @@
                 </div>
               </div>
             </div>
+              
+              
+              
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Inserer Stock</h4>
+                  <p class="card-description">
+                    
+                  </p>
+                  <form action="InsererStockServlet" method="post" class="forms-sample">
+                    <div class="form-group">
+                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Activite</label>
+                       <select name="idActivite" class="form-control">
+                        <% for(int i=0; i<activites.size(); i++) { %>
+                        <option value="<%= activites.get(i).getIdActivite() %>"><%= activites.get(i).getActivite() %></option>
+                        <% } %>
+                       </select>
+                      <label for="exampleInputUsername1">Quantite</label>
+                      <input type="text" name="quantite" min="1" class="form-control" id="exampleInputUsername1" placeholder="quantite" required>
+                      
+                    </div>
+                    <button type="submit" class="btn btn-primary me-2" value='inserLieu'>Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
                       
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card">

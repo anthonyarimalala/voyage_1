@@ -13,6 +13,10 @@
     Object errorObj = request.getAttribute("errorMessage");
     String errorMessage = "";
     if(errorObj!=null) errorMessage = (String) errorObj; 
+
+    Object successObj = request.getAttribute("successMessage");
+    String successMessage = "";
+    if(successObj!=null) successMessage = (String) successObj; 
     
 %>
 
@@ -70,6 +74,12 @@
                 <%= errorMessage %>
               </div>
               <% } %>
+              
+              <% if(successObj!=null) { %>
+            <div class="alert alert-success" role="alert">
+                <%= successMessage %>
+              </div>
+              <% } %>
             <br>
             <div class="col-md-4 grid-margin stretch-card">
                 <form action="ToListerVoyage">
@@ -103,7 +113,7 @@
                 </ul>
                 <div class="card-body">
                   <a href="#?idLieu=<%= v_voyages.get(i).getIdLieu() %>&&idBouquet=<%= v_voyages.get(i).getIdBouquet() %>&&duree=<%= v_voyages.get(i).getDuree() %>" class="card-link">Details</a>
-                    <a href="ReservationServlet?idVoyage=<%= v_voyages.get(i).getIdVoyage() %>" class="card-link">Reserver</a>
+                    <a href="InsererReservationServlet?idVoyage=<%= v_voyages.get(i).getIdVoyage() %>" class="card-link">Reserver</a>
                 </div>
               </div>
             </div>

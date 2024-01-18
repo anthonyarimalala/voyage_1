@@ -24,6 +24,16 @@ SELECT
     JOIN lieu l ON v.id_lieu = l.id_lieu
     JOIN duree d ON v.id_duree = d.id_duree;
 
+CREATE OR REPLACE VIEW v_voyage_exception AS
+SELECT
+        v.*,
+        l.lieu,
+        b.bouquet,
+        d.duree
+    FROM voyage v
+    JOIN lieu l ON v.id_lieu = l.id_lieu
+    JOIN bouquet b ON v.id_bouquet = b.id_bouquet
+    JOIN duree d ON v.id_duree = d.id_duree;
 
 CREATE OR REPLACE VIEW v_voyage AS
 SELECT 
@@ -55,3 +65,34 @@ SELECT
         l.lieu,
         d.duree,
         b.bouquet;
+
+-- ilaina am:
+--     v_stock_quantite_reste
+CREATE OR REPLACE VIEW v_stock AS
+SELECT 
+        a.id_activite,
+        a.activite,
+        COALESCE(SUM(s.entree - s.sortie), 0) AS restant
+    FROM activite a
+    LEFT JOIN stock s ON s.id_activite = a.id_activite
+    GROUP BY 
+        a.id_activite,
+        a.activite ;
+
+CREATE OR REPLACE VIEW v_stock_quantite_reste AS
+SELECT
+        v.*,
+        l.lieu,
+        b.bouquet,
+        d.duree,
+        vs.activite,
+        lfc.id_activite,
+        lfc.quantite,
+        vs.restant
+    FROM voyage v
+    JOIN l_formule_composition lfc ON v.id_bouquet=lfc.id_bouquet AND v.id_lieu=lfc.id_lieu AND v.id_duree=lfc.id_duree
+    JOIN lieu l ON v.id_lieu = l.id_lieu
+    JOIN duree d ON v.id_duree = d.id_duree
+    JOIN bouquet b ON v.id_bouquet = b.id_bouquet
+    JOIN v_stock vs ON lfc.id_activite = vs.id_activite
+    ;
