@@ -148,6 +148,7 @@ public class V_Voyage {
         voyage.setBouquet(rs.getString("bouquet"));
         voyage.setIdLieu(rs.getInt("id_lieu"));
         voyage.setLieu(rs.getString("lieu"));
+        voyage.setDuree(rs.getString("duree"));
         voyage.setIdDuree(rs.getInt("id_duree"));
         voyage.setLieu(rs.getString("lieu"));
         voyage.setPrix(rs.getDouble("prix"));
