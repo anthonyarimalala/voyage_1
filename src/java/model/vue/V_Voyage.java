@@ -55,11 +55,11 @@ public class V_Voyage {
     
     public static void main(String[] args) throws ClassNotFoundException, SQLException{
         Connection connection = Connex.getConnection();
-        List<V_Voyage> voyages = getAllVoyageByIdActivite(connection, 3);
+        List<V_Voyage> voyages = getAllVoyageByIdActivite(connection, 2);
         System.out.println(voyages.size());
         
-        CrudOperation crud = new CrudOperation(connection);
-        crud.selectAll(V_Voyage.class);
+//        CrudOperation crud = new CrudOperation(connection);
+//        crud.selectAll(V_Voyage.class);
     }
     
     

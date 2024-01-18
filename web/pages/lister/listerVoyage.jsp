@@ -111,10 +111,18 @@
                   <li class="list-group-item"><strong>Total activite: </strong><%= v_voyages.get(i).getPrixTotActivite() %></li>
                   
                 </ul>
-                <div class="card-body">
-                  <a href="#?idLieu=<%= v_voyages.get(i).getIdLieu() %>&&idBouquet=<%= v_voyages.get(i).getIdBouquet() %>&&duree=<%= v_voyages.get(i).getDuree() %>" class="card-link">Details</a>
-                    <a href="InsererReservationServlet?idVoyage=<%= v_voyages.get(i).getIdVoyage() %>" class="card-link">Reserver</a>
-                </div>
+                  <form action="InsererReservationServlet">
+                    <div class="card-body">
+                      <input type="text" name="idVoyage" value="<%= v_voyages.get(i).getIdVoyage() %>" hidden />
+                      <label for="exampleInputUsername1">Nom de reservation</label>
+                      <input type="text" name="nomReservation" class="form-control" id="exampleInputUsername1" placeholder="Nom de reservation" required>
+                      <label for="exampleInputUsername1">Quantite</label>
+                      <input type="number" min="1" name="quantite" class="form-control" id="exampleInputUsername1" placeholder="Quantite" required>
+                      <button type="submit" name="byPrix" value="ok" class="btn btn-primary me-2">Reserver</button>
+                      <a href="#?idLieu=<%= v_voyages.get(i).getIdLieu() %>&&idBouquet=<%= v_voyages.get(i).getIdBouquet() %>&&duree=<%= v_voyages.get(i).getDuree() %>" class="card-link">Details</a>
+                      
+                    </div>
+                  </form>
               </div>
             </div>
             <% } %>

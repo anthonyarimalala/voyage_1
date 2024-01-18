@@ -10,6 +10,8 @@ import generalise.CrudOperation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.voyage.Activite;
+import model.voyage.Reservation;
 import model.voyage.Stock;
 import model.vue.V_Stock;
 import model.vue.V_StockQuantiteReste;
@@ -57,8 +60,12 @@ public class InsererReservationServlet extends HttpServlet {
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 
+                double quantite = Double.parseDouble(request.getParameter("quantite"));
+                
+                String nomReservation = request.getParameter("nomReservation");
+                
                 int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
-                List<V_StockQuantiteReste> quantiteReste = V_StockQuantiteReste.ampy(connection, idVoyage, 1);
+                List<V_StockQuantiteReste> quantiteReste = V_StockQuantiteReste.ampy(connection, idVoyage, quantite);
                 
                 Stock stock = new Stock();
                 
@@ -66,9 +73,17 @@ public class InsererReservationServlet extends HttpServlet {
                     stock.setIdActivite(quantiteReste.get(i).getIdActivite());
                     stock.setEntree(0);
                     stock.setSortie(quantiteReste.get(i).getQuantiteHiala());
+                    stock.setDateModif(new Date(System.currentTimeMillis()));
                     
                     crud.save(stock);
                 }
+                Reservation reservation = new Reservation();
+                reservation.setIdVoyage(idVoyage);
+                reservation.setDateReservation(new Date(System.currentTimeMillis()));
+                reservation.setNomReservation(nomReservation);
+                reservation.setQuantite(quantite);
+                
+                crud.save(reservation);
                 
                 request.setAttribute("successMessage", "Vous avez réservé pour ce voyage");
                 

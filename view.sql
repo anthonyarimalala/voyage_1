@@ -9,20 +9,6 @@ SELECT
     JOIN activite a ON lba.id_activite = a.id_activite;
 
 
-CREATE OR REPLACE VIEW v_voyage_bouquet_activite AS
-SELECT 
-        v.*,
-        l.lieu,
-        d.duree,
-        b.bouquet,
-        a.id_activite,
-        a.activite
-    FROM voyage v
-    JOIN l_bouquet_activite lba ON v.id_bouquet = lba.id_bouquet
-    JOIN bouquet b ON lba.id_bouquet = b.id_bouquet
-    JOIN activite a on lba.id_activite = a.id_activite
-    JOIN lieu l ON v.id_lieu = l.id_lieu
-    JOIN duree d ON v.id_duree = d.id_duree;
 
 CREATE OR REPLACE VIEW v_voyage_exception AS
 SELECT
@@ -35,6 +21,7 @@ SELECT
     JOIN bouquet b ON v.id_bouquet = b.id_bouquet
     JOIN duree d ON v.id_duree = d.id_duree;
 
+-- Miasa ao am v_voyage_bouquet_activite
 CREATE OR REPLACE VIEW v_voyage AS
 SELECT 
         v.id_voyage,
@@ -65,6 +52,24 @@ SELECT
         l.lieu,
         d.duree,
         b.bouquet;
+
+
+CREATE OR REPLACE VIEW v_voyage_bouquet_activite AS
+SELECT 
+        v.*,
+        l.lieu,
+        d.duree,
+        b.bouquet,
+        a.id_activite,
+        a.activite,
+        vv.prix_tot_activite
+    FROM voyage v
+    JOIN l_bouquet_activite lba ON v.id_bouquet = lba.id_bouquet
+    JOIN bouquet b ON lba.id_bouquet = b.id_bouquet
+    JOIN activite a on lba.id_activite = a.id_activite
+    JOIN lieu l ON v.id_lieu = l.id_lieu
+    JOIN duree d ON v.id_duree = d.id_duree
+    JOIN v_voyage vv ON v.id_voyage = vv.id_voyage;
 
 -- ilaina am:
 --     v_stock_quantite_reste

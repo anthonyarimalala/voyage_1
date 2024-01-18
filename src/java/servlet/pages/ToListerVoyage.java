@@ -74,17 +74,20 @@ public class ToListerVoyage extends HttpServlet {
                 List<V_Voyage> v_voyages = new ArrayList<>();
                 
                 if(idActiviteStr!=null && !idActiviteStr.isEmpty()){
+                    out.println("Misy idActivite");
                     int idActivite = Integer.parseInt(idActiviteStr);
                     v_voyages = V_Voyage.getAllVoyageByIdActivite(connection, idActivite);
                     
                 }
                 else if(prixMinStr!=null && !prixMinStr.isEmpty() && prixMaxStr!=null && !prixMaxStr.isEmpty()){
+                    out.println("Misy prix minmax");
                     double prixMin = Double.parseDouble(prixMinStr);
                     double prixMax = Double.parseDouble(prixMaxStr);
                     
                     v_voyages = V_Voyage.getAllVoyageByTotalActiviteMinMax(connection, prixMin, prixMax);
                 }
                 else{
+                    out.println("Tsisy inina");
                     v_voyages  = crud.selectAll(V_Voyage.class);
                 }
 
