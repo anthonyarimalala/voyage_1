@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,69 @@ public class CrudOperation {
     public CrudOperation(Connection connection) {
         this.connection = connection;
     }
+    
+    public <T> String saveReturn(T obj) {
+        Class<?> clazz = obj.getClass();
 
+        if (!clazz.isAnnotationPresent(Table.class)) {
+            throw new IllegalArgumentException("Class must be annotated with @Table");
+        }
+
+        Table tableAnnotation = clazz.getAnnotation(Table.class);
+        String tableName = tableAnnotation.name();
+
+        StringBuilder queryBuilder = new StringBuilder("INSERT INTO " + tableName + " (");
+        StringBuilder valuesBuilder = new StringBuilder(" VALUES (");
+
+        Field[] fields = clazz.getDeclaredFields();
+
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(Column.class)) {
+                Column columnAnnotation = field.getAnnotation(Column.class);
+
+                String columnName = columnAnnotation.name().isEmpty() ? field.getName() : columnAnnotation.name();
+                if (!columnAnnotation.autoIncrement()) {
+                    queryBuilder.append(columnName).append(", ");
+                    valuesBuilder.append("?, ");
+                }
+            }
+        }
+
+        queryBuilder.setLength(queryBuilder.length() - 2);
+        valuesBuilder.setLength(valuesBuilder.length() - 2);
+
+        queryBuilder.append(")").append(valuesBuilder).append(")");
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(queryBuilder.toString(), Statement.RETURN_GENERATED_KEYS)) {
+            int parameterIndex = 1;
+
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(Column.class)) {
+                    Column columnAnnotation = field.getAnnotation(Column.class);
+
+                    if (!columnAnnotation.autoIncrement()) {
+                        field.setAccessible(true);
+                        preparedStatement.setObject(parameterIndex++, field.get(obj));
+                    }
+                }
+            }
+
+            preparedStatement.executeUpdate();
+
+            // Retrieve the generated ID
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                return String.valueOf(generatedKeys.getLong(1));
+            } else {
+                throw new SQLException("Failed to retrieve generated ID.");
+            }
+        } catch (SQLException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null; // Handle error appropriately in your application
+        }
+    }
+
+ 
     public <T> void save(T obj) {
         Class<?> clazz = obj.getClass();
 

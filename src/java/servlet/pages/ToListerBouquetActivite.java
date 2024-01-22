@@ -53,6 +53,7 @@ public class ToListerBouquetActivite extends HttpServlet {
                 CrudOperation crud = new CrudOperation(connection);
                 
                 List<U_BouquetActivite> bouquetActivites = U_BouquetActivite.getAllU_BouquetActivite(connection);
+                out.println("<br/> bouquetActivites.size(): "+ bouquetActivites.size());
                 request.setAttribute("u_bouquetActivites", bouquetActivites);
                 
                 connection.close();

@@ -21,7 +21,6 @@
             <li class="nav-item"><a class="nav-link" href="ToInsererElement">Elements</a></li>
             <li class="nav-item"><a class="nav-link" href="ToInsererVoyage">Voyage</a></li>
             <li class="nav-item"><a class="nav-link" href="ToInsererFormuleComposition">Formule composition</a></li>
-            <li class="nav-item"><a class="nav-link" href="ToAchatActivite">Achat activite</a></li>
           </ul>
             
         </div>

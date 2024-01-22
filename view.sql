@@ -34,13 +34,15 @@ SELECT
         l.lieu,
         d.duree,
         b.bouquet,
-        SUM(a.prix_u*lfc.quantite) AS prix_tot_activite
+        COALESCE((SELECT SUM(prix_tot_employe) FROM v_voyage_employe WHERE id_voyage=v.id_voyage), 0) AS prix_tot_employe,
+        COALESCE(SUM(a.prix_u*lfc.quantite), 0) AS prix_tot_activite,
+        (v.prix - (COALESCE(SUM(a.prix_u*lfc.quantite), 0) + COALESCE((SELECT SUM(prix_tot_employe) FROM v_voyage_employe WHERE id_voyage=v.id_voyage), 0))) AS benefice
     FROM voyage v
     JOIN bouquet b ON v.id_bouquet = b.id_bouquet
     JOIN lieu l ON v.id_lieu = l.id_lieu
     JOIN duree d ON v.id_duree = d.id_duree
-    JOIN l_formule_composition lfc ON l.id_lieu=lfc.id_lieu AND b.id_bouquet=lfc.id_bouquet AND d.id_duree=lfc.id_duree
-    JOIN activite a ON lfc.id_activite = a.id_activite
+    LEFT JOIN l_formule_composition lfc ON l.id_lieu=lfc.id_lieu AND b.id_bouquet=lfc.id_bouquet AND d.id_duree=lfc.id_duree
+    LEFT JOIN activite a ON lfc.id_activite = a.id_activite
     GROUP BY 
         v.id_voyage,
         v.id_bouquet,
@@ -70,6 +72,21 @@ SELECT
     JOIN lieu l ON v.id_lieu = l.id_lieu
     JOIN duree d ON v.id_duree = d.id_duree
     JOIN v_voyage vv ON v.id_voyage = vv.id_voyage;
+
+CREATE OR REPLACE VIEW v_voyage_employe AS
+SELECT 
+        lve.*, 
+        v.voyage, 
+        d.duree,
+        v.id_duree, 
+        e.nom, 
+        e.prix,
+        d.valeur,
+        (e.prix * lve.volume_h * d.valeur) AS prix_tot_employe
+    FROM l_voyage_employe lve
+    JOIN voyage v ON lve.id_voyage = v.id_voyage
+    JOIN employe e ON lve.id_employe = e.id_employe
+    JOIN duree d ON v.id_duree = d.id_duree;
 
 -- ilaina am:
 --     v_stock_quantite_reste

@@ -50,8 +50,14 @@ public class V_Voyage {
     @Column(name="description")
     String description;
     
+    @Column(name="prix_tot_employe")
+    double prixTotEmploye;
+    
     @Column(name="prix_tot_activite")
     double prixTotActivite;
+    
+    @Column(name="benefice")
+    double benefice;
     
     public static void main(String[] args) throws ClassNotFoundException, SQLException{
         Connection connection = Connex.getConnection();
@@ -64,13 +70,12 @@ public class V_Voyage {
     
     
     
-    public List<V_Voyage> getAllVoyageByBeneficeMinMax(Connection connection, double min, double max) {
+    public static List<V_Voyage> getAllVoyageByBeneficeMinMax(Connection connection, double min, double max) {
         List<V_Voyage> result = new ArrayList<>();
 
         String sql = "SELECT * " +
                      "FROM v_voyage " +
-                     "WHERE ? <= benefice AND benefice <= ? " +
-                     "GROUP BY id_voyage, id_bouquet, id_lieu, id_duree, prix, voyage, description";
+                     "WHERE ? <= benefice AND benefice <= ? ";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setDouble(1, min);
@@ -155,6 +160,8 @@ public class V_Voyage {
         voyage.setVoyage(rs.getString("voyage"));
         voyage.setDescription(rs.getString("description"));
         voyage.setPrixTotActivite(rs.getDouble("prix_tot_activite"));
+        voyage.setBenefice(rs.getDouble("benefice"));
+        voyage.setPrixTotEmploye(rs.getDouble("prix_tot_employe"));
 
         return voyage;
     }
@@ -248,6 +255,22 @@ public class V_Voyage {
 
     public void setPrixTotActivite(double prixTotActivite) {
         this.prixTotActivite = prixTotActivite;
+    }
+
+    public double getPrixTotEmploye() {
+        return prixTotEmploye;
+    }
+
+    public void setPrixTotEmploye(double prixTotEmploye) {
+        this.prixTotEmploye = prixTotEmploye;
+    }
+
+    public double getBenefice() {
+        return benefice;
+    }
+
+    public void setBenefice(double benefice) {
+        this.benefice = benefice;
     }
 
     

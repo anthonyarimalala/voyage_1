@@ -80,11 +80,13 @@ public class ToListerVoyage extends HttpServlet {
                     
                 }
                 else if(prixMinStr!=null && !prixMinStr.isEmpty() && prixMaxStr!=null && !prixMaxStr.isEmpty()){
+                    String minmax = request.getParameter("minmax");
                     out.println("Misy prix minmax");
                     double prixMin = Double.parseDouble(prixMinStr);
                     double prixMax = Double.parseDouble(prixMaxStr);
                     
-                    v_voyages = V_Voyage.getAllVoyageByTotalActiviteMinMax(connection, prixMin, prixMax);
+                    if(minmax.equals("totActivite")) v_voyages = V_Voyage.getAllVoyageByTotalActiviteMinMax(connection, prixMin, prixMax);
+                    if(minmax.equals("benefice")) v_voyages = V_Voyage.getAllVoyageByBeneficeMinMax(connection, prixMin, prixMax);
                 }
                 else{
                     out.println("Tsisy inina");

@@ -55,7 +55,7 @@ CREATE TABLE l_formule_composition (
 CREATE TABLE stock (
     id_stock SERIAL PRIMARY KEY,
     date_modif DATE DEFAULT CURRENT_DATE,
-    id_activite INT REFERENCES activite(id_activite),
+    id_activite INT REFERENCES activite(id_activite) ON DELETE CASCADE,
     entree FLOAT,
     sortie FLOAT
 );
@@ -67,8 +67,22 @@ CREATE TABLE reservation (
     id_reservation SERIAL PRIMARY KEY,
     nom_reservation VARCHAR(255),
     date_reservation DATE DEFAULT CURRENT_DATE,
-    id_voyage INT REFERENCES voyage(id_voyage),
+    id_voyage INT REFERENCES voyage(id_voyage) ON DELETE CASCADE,
     quantite FLOAT,
     etat INTEGER DEFAULT 1
 );
 
+CREATE TABLE l_voyage_employe(
+    id_voyage_employe SERIAL PRIMARY KEY,
+    id_voyage INTEGER REFERENCES voyage(id_voyage) ON DELETE CASCADE,
+    id_employe INTEGER REFERENCES employe(id_employe) ON DELETE CASCADE,
+    volume_h FLOAT
+);
+
+
+-- ALTER TABLE stock
+-- DROP CONSTRAINT IF EXISTS stock_id_activite_fkey,  -- Supprimez la contrainte existante si elle existe
+-- ADD CONSTRAINT stock_id_activite_fkey
+--     FOREIGN KEY (id_activite)
+--     REFERENCES activite(id_activite)
+--     ON DELETE CASCADE;

@@ -1,0 +1,40 @@
+Exec:
+org.postgresql.util.PSQLException: ERROR: duplicate key value violates unique constraint "activite_pkey"
+  Detail: Key (id_activite)=(0) already exists.
+    Solution: ajout dans l'annotation : (, autoIncrement = true, id = true)
+
+Simple:
+v_voyage manome valeur diso am prix_tot_activite
+    Solution: tsy apina join v_voyage_employe intsony fa miampy ilay colonne
+
+view manome valeur diso:
+    Solution: join lasa miampy ny ligne anle tableau
+
+
+ <% for(int i=0; i<bouquetActivites.size(); i++) { %>  
+                <div class="col-lg-3 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4 class="card-title">Bouquet: <%= bouquetActivites.get(1).getBouquet().getBouquet() %></h4>
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Activites: </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              <% for(int j=0; j<bouquetActivites.get(i).getBouquetActivite().size(); j++) { %>
+                            <tr>
+                              <td><%= bouquetActivites.get(i).getBouquetActivite().get(j).getActivite() %></td>
+                            </tr>
+                            <% } %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            <% } %> 
+            
+            

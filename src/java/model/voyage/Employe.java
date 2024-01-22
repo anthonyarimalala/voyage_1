@@ -28,11 +28,12 @@ public class Employe {
         CrudOperation crud = new CrudOperation(connection);
         
         Employe employe = new Employe();
-        employe.setNom("Sarobidy");
-        employe.setFonction("Masseuse");
-        employe.setPrix(20000);
+        employe.setNom("Sahondra");
+        employe.setFonction("Menage");
+        employe.setPrix(7000);
         
-        crud.save(employe);
+        String id = crud.saveReturn(employe);
+        System.out.println(id);
     }
 
     public Employe() {

@@ -42,7 +42,7 @@
                 <div class="col-lg-3 grid-margin stretch-card">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">Bouquet: <%= bouquetActivites.get(1).getBouquet().getBouquet() %></h4>
+                      <h4 class="card-title">Bouquet: <%= bouquetActivites.get(i).getBouquet().getBouquet() %></h4>
                       <div class="table-responsive">
                         <table class="table">
                           <thead>

@@ -21,7 +21,7 @@ public class U_BouquetActivite {
         Connection connection = Connex.getConnection();
         List<U_BouquetActivite> myList = getAllU_BouquetActivite(connection);
         
-        System.out.println(myList.get(1).getBouquetActivite().size());
+        System.out.println(myList.get(0).getBouquet());
         
         myList.get(0).getBouquet().getIdBouquet();
         myList.get(0).getBouquetActivite().size();

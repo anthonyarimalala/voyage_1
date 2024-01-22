@@ -3,12 +3,14 @@
 <%@page import="model.voyage.Bouquet"%>
 <%@page import="model.voyage.Lieu"%>
 <%@page import="model.voyage.Duree"%>
+<%@page import="model.voyage.Employe"%>
 <%@page import="java.util.List"%>
 
 <%
     List<Bouquet> bouquets = (List<Bouquet>)request.getAttribute("bouquets");
     List<Lieu> lieux = (List<Lieu>)request.getAttribute("lieux");
     List<Duree> durees = (List<Duree>) request.getAttribute("durees");
+    List<Employe> employes = (List<Employe>) request.getAttribute("employes");
 %>
 <html lang="en">
 
@@ -85,8 +87,7 @@
                     <div class="form-group row">
                       <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Duree</label>
                       <div class="col-sm-9">
-                        <select name="idD
-                                uree" class="form-control">
+                        <select name="idDuree" class="form-control">
                             <% for(int i=0; i<durees.size(); i++) { %>
                                 <option value="<%= durees.get(i).getIdDuree() %>"><%= durees.get(i).getDuree() %></option>
                             <% } %>
@@ -99,6 +100,20 @@
                       <label for="exampleInputUsername1">Prix</label>
                       <input type="number" name="prix"  class="form-control" id="exampleInputUsername1" placeholder="Prix" required>
                     </div>
+                        
+                    <div class="form-group row">
+                      <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Employes</label>
+                      <div class="col-sm-9">
+                        <% for(int i=0; i<employes.size(); i++) { %>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="idEmployes" value="<%= employes.get(i).getIdEmploye() %>">
+                            <label class="form-check-label"><%= employes.get(i).getNom() %>: <%= employes.get(i).getFonction() %></label>
+                            <input class="form-control hour-input" type="number" name="heure<%= employes.get(i).getIdEmploye() %>" placeholder="volume horaire" min="0" value="0" id="exampleInputUsername1">
+                        </div>
+                        <% } %>
+                      </div>
+                    </div>
+                      
                     <button type="submit" class="btn btn-primary me-2">Submit</button>
                   </form>
                 </div>
@@ -125,6 +140,8 @@
   <!-- plugins:js -->
   <jsp:include page="../scripts.jsp" />
   <!-- End custom js for this page-->
+  
+
 </body>
 
 </html>

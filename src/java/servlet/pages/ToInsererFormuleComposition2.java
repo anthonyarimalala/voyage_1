@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.liaison.L_BouquetActivite;
 import model.voyage.Bouquet;
 import model.voyage.Duree;
+import model.voyage.Employe;
 import model.voyage.Lieu;
 import model.vue.V_BouquetActivite;
 
@@ -66,6 +67,8 @@ public class ToInsererFormuleComposition2 extends HttpServlet {
                 
                 List<V_BouquetActivite> v_bouquetActivite = crud.selectAllById(V_BouquetActivite.class, "id_bouquet", idBouquet);
                 request.setAttribute("v_bouquetActivites", v_bouquetActivite);
+                
+                
                 
                 connection.close();
                 RequestDispatcher dispatcher = request.getRequestDispatcher("pages/inserer/insererFormuleComposition2.jsp");

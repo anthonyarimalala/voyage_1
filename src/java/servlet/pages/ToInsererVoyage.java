@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.voyage.Bouquet;
 import model.voyage.Duree;
+import model.voyage.Employe;
 import model.voyage.Lieu;
 
 /**
@@ -64,6 +65,9 @@ public class ToInsererVoyage extends HttpServlet {
                 
                 List<Duree> durees = crud.selectAll(Duree.class);
                 request.setAttribute("durees", durees);
+                
+                List<Employe> employes = crud.selectAll(Employe.class);
+                request.setAttribute("employes", employes);
                 
                 
                 connection.close();

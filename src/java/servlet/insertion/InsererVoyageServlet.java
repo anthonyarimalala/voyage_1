@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.liaison.L_VoyageEmploye;
 import model.voyage.Voyage;
 
 public class InsererVoyageServlet extends HttpServlet {
@@ -48,9 +49,29 @@ public class InsererVoyageServlet extends HttpServlet {
                 voyage.setPrix(prix);
                 voyage.setVoyage(voyageStr);
                 
-                crud.save(voyage);
+                int idVoyage = Integer.parseInt(crud.saveReturn(voyage));
+                String[] idEmployesStr = request.getParameterValues("idEmployes");
+                L_VoyageEmploye voyageEmploye = new L_VoyageEmploye();
                 
+                if(idEmployesStr != null){
+                    for(int i=0; i<idEmployesStr.length; i++){
+                        out.println("<br/> idEmploye: "+idEmployesStr[i]);
+                        int idEmploye = Integer.parseInt(idEmployesStr[i]);
+                        String myParameter = "heure"+idEmploye;
+                        double volumeHoraire = Double.parseDouble(request.getParameter(myParameter));
+                        out.println(", Volume horaire: "+volumeHoraire);
+                        
+                        
+                        voyageEmploye.setIdEmploye(idEmploye);
+                        voyageEmploye.setIdVoyage(idVoyage);
+                        voyageEmploye.setVolumeH(volumeHoraire);
+                        
+                        out.println("<br/> idVoyageEmploye: "+crud.saveReturn(voyageEmploye));
+                   }
+                }
                 
+               
+                 
                 connection.close();
                 response.sendRedirect("ToInsererVoyage");
             }catch(Exception e){

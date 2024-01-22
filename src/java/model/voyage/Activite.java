@@ -1,8 +1,11 @@
 
 package model.voyage;
 
+import database.Connex;
 import generalise.Column;
+import generalise.CrudOperation;
 import generalise.Table;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -18,7 +21,20 @@ public class Activite {
     @Column(name="prix_u")
     double prixU;
     
-    public static Activite mapFromResultSet(ResultSet rs) throws SQLException {
+    public static void main(String[] args) throws ClassNotFoundException, SQLException{
+        Connection connection = Connex.getConnection();
+        CrudOperation crud = new CrudOperation(connection);
+        
+        Activite activite = new Activite();
+        activite.setActivite("Quad");
+        activite.setPrixU(20000);
+        
+        System.out.println("id: "+crud.saveReturn(activite));
+    }
+    
+    public static Activite mapFromResultSet(ResultSet rs) throws SQLException{
+        
+        
         Activite activite = new Activite();
         
         activite.setIdActivite(rs.getInt("id_activite"));

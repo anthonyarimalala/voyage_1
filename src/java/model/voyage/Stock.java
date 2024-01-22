@@ -13,7 +13,7 @@ public class Stock {
     int idStock;
     
     @Column(name="date_modif")
-    Date dateModif;
+    Date dateModif = new Date(System.currentTimeMillis());
     
     @Column(name="id_activite")
     int idActivite;
