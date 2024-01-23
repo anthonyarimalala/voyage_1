@@ -6,6 +6,7 @@ import generalise.Column;
 import generalise.CrudOperation;
 import generalise.Table;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
 
 @Table(name="employe")
@@ -16,6 +17,9 @@ public class Employe {
     
     @Column(name="nom")
     String nom;
+    
+    @Column(name="date_embauche")
+    Date dateEmbauche;
     
     @Column(name="fonction")
     String fonction;
@@ -69,6 +73,14 @@ public class Employe {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public Date getDateEmbauche() {
+        return dateEmbauche;
+    }
+
+    public void setDateEmbauche(Date dateEmbauche) {
+        this.dateEmbauche = dateEmbauche;
     }
     
     

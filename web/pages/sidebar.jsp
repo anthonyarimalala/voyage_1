@@ -51,6 +51,7 @@
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="ToListerBouquetActivite">Activite par bouquet</a></li>
             <li class="nav-item"> <a class="nav-link" href="ToListerVoyage">Voyage</a></li>
+            <li class="nav-item"> <a class="nav-link" href="ToListerEmploye">Employe</a></li>
           </ul>
         </div>
       </li>

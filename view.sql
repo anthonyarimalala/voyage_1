@@ -80,12 +80,12 @@ SELECT
         d.duree,
         v.id_duree, 
         e.nom, 
-        e.prix,
+        e.new_prix AS prix,
         d.valeur,
-        (e.prix * lve.volume_h * d.valeur) AS prix_tot_employe
+        (e.new_prix * lve.volume_h * d.valeur) AS prix_tot_employe
     FROM l_voyage_employe lve
     JOIN voyage v ON lve.id_voyage = v.id_voyage
-    JOIN employe e ON lve.id_employe = e.id_employe
+    JOIN v_employe e ON lve.id_employe = e.id_employe
     JOIN duree d ON v.id_duree = d.id_duree;
 
 -- ilaina am:
@@ -118,3 +118,15 @@ SELECT
     JOIN bouquet b ON v.id_bouquet = b.id_bouquet
     JOIN v_stock vs ON lfc.id_activite = vs.id_activite
     ;
+
+
+
+CREATE OR REPLACE VIEW v_employe AS
+SELECT 
+        employe.*,
+        EXTRACT(YEAR FROM AGE(CURRENT_DATE, date_embauche))::INTEGER AS annee_experience,
+        COALESCE(e.experience, 'Senior')::VARCHAR(255) AS experience,
+        COALESCE(e.multipl, 3) AS multipl,
+        COALESCE((employe.prix * e.multipl), (employe.prix * 3)) AS new_prix
+    FROM employe
+    LEFT JOIN experience e ON EXTRACT(YEAR FROM AGE(CURRENT_DATE, date_embauche))::INTEGER = e.annee;

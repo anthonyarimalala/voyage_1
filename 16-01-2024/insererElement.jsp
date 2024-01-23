@@ -150,12 +150,11 @@
                       <label for="exampleInputUsername1">Fonction</label>
                       <input type="text" name="fonction" class="form-control" id="exampleInputUsername1" placeholder="fonction" required>
                       
-                      <label for="exampleInputUsername1">Taux horaire</label>
+                      <label for="exampleInputUsername1">Prix horaire</label>
                       <input type="text" name="prix" class="form-control" id="exampleInputUsername1" placeholder="prix" required>
-                    
+                      
                       <label for="exampleInputUsername1">Date</label>
                       <input type="date" name="date" class="form-control" id="exampleInputUsername1" placeholder="date" required>
-                    
                     </div>
                     <button type="submit" class="btn btn-primary me-2" value='inserLieu'>Submit</button>
                   </form>

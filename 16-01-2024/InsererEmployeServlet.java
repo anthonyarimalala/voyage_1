@@ -63,6 +63,7 @@ public class InsererEmployeServlet extends HttpServlet {
                 employe.setPrix(prix);
                 employe.setDateEmbauche(Date.valueOf(date));
                 
+                
                 crud.save(employe);
                 
                 connection.close();

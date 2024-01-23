@@ -15,12 +15,21 @@ CREATE TABLE duree (
     valeur FLOAT NOT NULL
 );
 
+CREATE TABLE experience(
+    id_experience SERIAL PRIMARY KEY,
+    experience VARCHAR(255) NOT NULL,
+    annee INTEGER,
+    multipl FLOAT
+);
+
 CREATE TABLE employe (
     id_employe SERIAL PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
     fonction VARCHAR(255) NOT NULL,
-    prix FLOAT NOT NULL
+    prix FLOAT NOT NULL,
+    date_embauche DATE
 );
+
 
 CREATE TABLE lieu (
     id_lieu SERIAL PRIMARY KEY,

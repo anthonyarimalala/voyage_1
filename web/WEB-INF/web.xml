@@ -68,6 +68,10 @@
         <servlet-name>InsererReservationServlet</servlet-name>
         <servlet-class>servlet.insertion.InsererReservationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ToListerEmploye</servlet-name>
+        <servlet-class>servlet.pages.ToListerEmploye</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ToHome</servlet-name>
         <url-pattern>/ToHome</url-pattern>
@@ -135,6 +139,10 @@
     <servlet-mapping>
         <servlet-name>InsererReservationServlet</servlet-name>
         <url-pattern>/InsererReservationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToListerEmploye</servlet-name>
+        <url-pattern>/ToListerEmploye</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

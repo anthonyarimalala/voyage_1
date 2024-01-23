@@ -91,7 +91,7 @@
                   <li class="list-group-item"><strong>Prix: </strong><%= v_voyages.get(i).getPrix() %></li>
                   <li class="list-group-item"><strong>Total activite: </strong><%= v_voyages.get(i).getPrixTotActivite() %></li>
                   <li class="list-group-item"><strong>Total employe: </strong><%= v_voyages.get(i).getPrixTotEmploye() %></li>
-                  <li class="list-group-item"><strong>Total activite: </strong><%= v_voyages.get(i).getBenefice() %></li>
+                  <li class="list-group-item"><strong>Benefice: </strong><%= v_voyages.get(i).getBenefice() %></li>
                   
                   
                   

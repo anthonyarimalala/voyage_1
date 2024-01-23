@@ -3,26 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.insertion;
+package servlet.pages;
 
 import database.Connex;
 import generalise.CrudOperation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.voyage.Employe;
+import model.vue.V_Employe;
 
 /**
  *
  * @author PC
  */
-public class InsererEmployeServlet extends HttpServlet {
+public class ToListerEmploye extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,34 +42,28 @@ public class InsererEmployeServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InsererEmployeServlet</title>");            
+            out.println("<title>Servlet ToListerEmploye</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet InsererEmployeServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ToListerEmploye at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
             
-            try{
+            try {
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 
-                String nom = request.getParameter("nom");
-                String fonction = request.getParameter("fonction");
-                double prix = Double.parseDouble(request.getParameter("prix"));
-                String date = request.getParameter("date");
+                List<V_Employe> employes = crud.selectAll(V_Employe.class);
                 
-                Employe employe = new Employe();
-                employe.setNom(nom);
-                employe.setFonction(fonction);
-                employe.setPrix(prix);
-                employe.setDateEmbauche(Date.valueOf(date));
-                
-                crud.save(employe);
+                request.setAttribute("employes", employes);
                 
                 connection.close();
-                response.sendRedirect("ToInsererElement");
-            }catch(Exception e){
-                e.printStackTrace(out);
+                
+                RequestDispatcher dispatcher = request.getRequestDispatcher("pages/lister/listerEmploye.jsp");
+                dispatcher.forward(request, response);
+            }
+            catch(Exception e) {
+                e.printStackTrace();
             }
         }
     }
