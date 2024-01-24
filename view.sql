@@ -62,9 +62,11 @@ SELECT
         l.lieu,
         d.duree,
         b.bouquet,
+        vv.prix_tot_employe,
+        vv.prix_tot_activite,
+        vv.benefice,
         a.id_activite,
-        a.activite,
-        vv.prix_tot_activite
+        a.activite
     FROM voyage v
     JOIN l_bouquet_activite lba ON v.id_bouquet = lba.id_bouquet
     JOIN bouquet b ON lba.id_bouquet = b.id_bouquet
@@ -119,14 +121,13 @@ SELECT
     JOIN v_stock vs ON lfc.id_activite = vs.id_activite
     ;
 
-
-
 CREATE OR REPLACE VIEW v_employe AS
 SELECT 
-        employe.*,
+        e.*,
         EXTRACT(YEAR FROM AGE(CURRENT_DATE, date_embauche))::INTEGER AS annee_experience,
-        COALESCE(e.experience, 'Senior')::VARCHAR(255) AS experience,
-        COALESCE(e.multipl, 3) AS multipl,
-        COALESCE((employe.prix * e.multipl), (employe.prix * 3)) AS new_prix
-    FROM employe
-    LEFT JOIN experience e ON EXTRACT(YEAR FROM AGE(CURRENT_DATE, date_embauche))::INTEGER = e.annee;
+        COALESCE(lpe.promotion, (SELECT promotion FROM promo_emp WHERE annee_requis=(SELECT MAX(annee_requis) FROM promo_emp)))::VARCHAR(255) AS experience,
+        COALESCE(lpe.multipl, (SELECT multipl FROM promo_emp WHERE annee_requis=(SELECT MAX(annee_requis) FROM promo_emp))) AS multipl,
+        COALESCE((e.prix * lpe.multipl), (e.prix * (SELECT multipl FROM promo_emp WHERE annee_requis=(SELECT MAX(annee_requis) FROM promo_emp)))) AS new_prix
+    FROM employe e
+    LEFT JOIN l_promo_emp lpe ON EXTRACT(YEAR FROM AGE(CURRENT_DATE, e.date_embauche))::INTEGER = lpe.annee_requis;
+

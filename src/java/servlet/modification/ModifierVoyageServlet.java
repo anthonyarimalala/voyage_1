@@ -3,28 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.pages;
+package servlet.modification;
 
 import database.Connex;
 import generalise.CrudOperation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.voyage.Activite;
-import model.vue.V_Voyage;
 
 /**
  *
  * @author PC
  */
-public class ToListerVoyage extends HttpServlet {
+public class ModifierVoyageServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +39,10 @@ public class ToListerVoyage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ToListerVoyage</title>");            
+            out.println("<title>Servlet ModifierVoyageServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ToListerVoyage at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ModifierVoyageServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
             
@@ -54,57 +50,11 @@ public class ToListerVoyage extends HttpServlet {
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 
-                String successMessage = (String)request.getAttribute("successMessage");
-                String errorMessage = (String)request.getAttribute("errorMessage");
+                int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
                 
-                if(errorMessage!=null && !errorMessage.isEmpty()){
-                    request.setAttribute("errorMessage", errorMessage);
-                }
-                if(successMessage!=null && !successMessage.isEmpty()){
-                    request.setAttribute("successMessage", successMessage);
-                }
-                
-                List<Activite> activites = crud.selectAll(Activite.class);
-                request.setAttribute("activites", activites);
-                
-                String idActiviteStr = request.getParameter("idActivite");
-                String prixMinStr = request.getParameter("prixMin");
-                String prixMaxStr = request.getParameter("prixMax");
-                
-                List<V_Voyage> v_voyages = new ArrayList<>();
-                
-                if(idActiviteStr!=null && !idActiviteStr.isEmpty()){
-                    out.println("Misy idActivite");
-                    int idActivite = Integer.parseInt(idActiviteStr);
-                    
-                    out.println("idActivite: "+idActivite);
-                    v_voyages = V_Voyage.getAllVoyageByIdActivite(connection, idActivite);
-                    
-                }
-                else if(prixMinStr!=null && !prixMinStr.isEmpty() && prixMaxStr!=null && !prixMaxStr.isEmpty()){
-                    String minmax = request.getParameter("minmax");
-                    out.println("Misy prix minmax");
-                    double prixMin = Double.parseDouble(prixMinStr);
-                    double prixMax = Double.parseDouble(prixMaxStr);
-                    
-                    if(minmax.equals("totActivite")) v_voyages = V_Voyage.getAllVoyageByTotalActiviteMinMax(connection, prixMin, prixMax);
-                    if(minmax.equals("benefice")) v_voyages = V_Voyage.getAllVoyageByBeneficeMinMax(connection, prixMin, prixMax);
-                }
-                else{
-                    out.println("Tsisy inina");
-                    v_voyages  = crud.selectAll(V_Voyage.class);
-                    
-                }
-
                 connection.close();
-                
-                request.setAttribute("v_voyages", v_voyages);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("pages/lister/listerVoyage.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("");
                 dispatcher.forward(request, response);
-                
-                
-                
-                
             }catch(Exception e){
                 e.printStackTrace(out);
             }

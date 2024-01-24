@@ -333,6 +333,55 @@ public class CrudOperation {
             e.printStackTrace();
         }
     }
+    
+    public <T> void update(T obj, String column, Object id) {
+        Class<?> clazz = obj.getClass();
+
+        if (!clazz.isAnnotationPresent(Table.class)) {
+            throw new IllegalArgumentException("Class must be annotated with @Table");
+        }
+
+        Table tableAnnotation = clazz.getAnnotation(Table.class);
+        String tableName = tableAnnotation.name();
+
+        StringBuilder queryBuilder = new StringBuilder("UPDATE " + tableName + " SET ");
+        Field[] fields = clazz.getDeclaredFields();
+        
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(Column.class)) {
+                Column columnAnnotation = field.getAnnotation(Column.class);
+                String columnName = columnAnnotation.name().isEmpty() ? field.getName() : columnAnnotation.name();
+                if (!columnAnnotation.autoIncrement()) {
+                    queryBuilder.append(columnName).append(" = ?, ");
+                }
+            }
+        }
+
+        queryBuilder.setLength(queryBuilder.length() - 2);
+        queryBuilder.append(" WHERE "+column+" = ?");
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(queryBuilder.toString())) {
+            int parameterIndex = 1;
+
+            for (Field field : fields) {
+                if (field.isAnnotationPresent(Column.class)) {
+                    Column columnAnnotation = field.getAnnotation(Column.class);
+
+                    if (!columnAnnotation.autoIncrement()) {
+                        field.setAccessible(true);
+                        preparedStatement.setObject(parameterIndex++, field.get(obj));
+                    }
+                }
+            }
+
+            preparedStatement.setObject(parameterIndex, id);
+
+            preparedStatement.executeUpdate();
+            System.out.println("Data updated successfully.");
+        } catch (SQLException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 
     public <T> void delete(Class<T> clazz, Object id) {
         if (!clazz.isAnnotationPresent(Table.class)) {
@@ -359,6 +408,24 @@ public class CrudOperation {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setObject(1, id);
+            preparedStatement.executeUpdate();
+            System.out.println("Data deleted successfully.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public <T> void deleteAll(Class<T> clazz) {
+        if (!clazz.isAnnotationPresent(Table.class)) {
+            throw new IllegalArgumentException("Class must be annotated with @Table");
+        }
+
+        Table tableAnnotation = clazz.getAnnotation(Table.class);
+        String tableName = tableAnnotation.name();
+
+        String query = "DELETE FROM " + tableName;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
             System.out.println("Data deleted successfully.");
         } catch (SQLException e) {
@@ -393,4 +460,10 @@ public class CrudOperation {
             e.printStackTrace();
         }
     }
+
+    public Connection getConnection() {
+        return connection;
+    }
+    
+    
 }

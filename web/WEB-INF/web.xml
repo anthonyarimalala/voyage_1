@@ -72,6 +72,22 @@
         <servlet-name>ToListerEmploye</servlet-name>
         <servlet-class>servlet.pages.ToListerEmploye</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ToModifierPromotion</servlet-name>
+        <servlet-class>servlet.pages.ToModifierPromotion</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifierPromotionServlet</servlet-name>
+        <servlet-class>servlet.modification.ModifierPromotionServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ToModifierVoyage</servlet-name>
+        <servlet-class>servlet.pages.ToModifierVoyage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifierVoyageServlet</servlet-name>
+        <servlet-class>servlet.modification.ModifierVoyageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ToHome</servlet-name>
         <url-pattern>/ToHome</url-pattern>
@@ -143,6 +159,22 @@
     <servlet-mapping>
         <servlet-name>ToListerEmploye</servlet-name>
         <url-pattern>/ToListerEmploye</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToModifierPromotion</servlet-name>
+        <url-pattern>/ToModifierPromotion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifierPromotionServlet</servlet-name>
+        <url-pattern>/ModifierPromotionServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToModifierVoyage</servlet-name>
+        <url-pattern>/ToModifierVoyage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifierVoyageServlet</servlet-name>
+        <url-pattern>/ModifierVoyageServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

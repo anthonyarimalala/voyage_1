@@ -34,8 +34,8 @@
         </a>
         <div class="collapse" id="charts" style="">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="ToModifBouquetActivite">Bouquet - Activites</a></li>
-            <li class="nav-item"> <a class="nav-link" href="ToModifVoyage">Voyages</a></li>
+            <li class="nav-item"> <a class="nav-link" href="ToModifierPromotion">Promotion</a></li>
+            <li class="nav-item"> <a class="nav-link" href="ToModifierVoyage">Voyages</a></li>
           </ul>
         </div>
       </li>

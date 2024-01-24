@@ -1,0 +1,4 @@
+Construction l_promo_emp(id_l_promo_emp, id_promotion, promotion, annee_requis, multipl):
+    -alaina daholo ny promo_emp
+    -atao boucle avy any ambony ndrindra
+    -apidirina daholo dia atao mitovy am le numero

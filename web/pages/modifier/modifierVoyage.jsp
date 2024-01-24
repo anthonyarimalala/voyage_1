@@ -78,6 +78,7 @@
            <div class="row">
               
               <% for(int i=0; i< v_voyages.size(); i++) { %>
+              <form action="ModifierReservationServlet">
             <div class="col-md-4 grid-margin stretch-card">
               <div class="card" style="width: 18rem;">
                 <!--<img src="..." class="card-img-top" alt="...">-->
@@ -89,7 +90,7 @@
                   <li class="list-group-item"><strong>Duree:    </strong><%= v_voyages.get(i).getDuree() %></li>
                   <li class="list-group-item"><strong>Lieu:    </strong><%= v_voyages.get(i).getLieu() %></li>
                   <li class="list-group-item"><strong>Bouquet: </strong><%= v_voyages.get(i).getBouquet() %></li>
-                  <li class="list-group-item"><strong>Prix: </strong><%= Utils.formatDouble(v_voyages.get(i).getPrix()) %></li>
+                  <li class="list-group-item"><strong>Prix: </strong><input type="number" name="prix" min="1000" value="<%= v_voyages.get(i).getPrix() %>" required /> <%= Utils.formatDouble(v_voyages.get(i).getPrix()) %> </li>
                   <li class="list-group-item"><strong>Total activite: </strong><%= Utils.formatDouble(v_voyages.get(i).getPrixTotActivite()) %></li>
                   <li class="list-group-item"><strong>Total employe: </strong><%= Utils.formatDouble(v_voyages.get(i).getPrixTotEmploye()) %></li>
                   <li class="list-group-item"><strong>Benefice: </strong><%= Utils.formatDouble(v_voyages.get(i).getBenefice()) %></li>
@@ -97,15 +98,10 @@
                   
                   
                 </ul>
-                  <form action="InsererReservationServlet">
+                  
                     <div class="card-body">
                       <input type="text" name="idVoyage" value="<%= v_voyages.get(i).getIdVoyage() %>" hidden />
-                      <label for="exampleInputUsername1">Nom de reservation</label>
-                      <input type="text" name="nomReservation" class="form-control" id="exampleInputUsername1" placeholder="Nom de reservation" required>
-                      <label for="exampleInputUsername1">Quantite</label>
-                      <input type="number" min="1" name="quantite" class="form-control" id="exampleInputUsername1" placeholder="Quantite" required>
-                      <button type="submit" name="byPrix" value="ok" class="btn btn-primary me-2">Reserver</button>
-                      <a href="#?idLieu=<%= v_voyages.get(i).getIdLieu() %>&&idBouquet=<%= v_voyages.get(i).getIdBouquet() %>&&duree=<%= v_voyages.get(i).getDuree() %>" class="card-link">Details</a>
+                      <button type="submit" name="byPrix" value="ok" class="btn btn-primary me-2">Mise à jour</button>
                       
                     </div>
                   </form>
@@ -113,83 +109,10 @@
             </div>
             <% } %>
                   
-              
-                      
-                      
           </div>
-            <div class="row">
-           <div class="col-md-3 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Recherche par activite</h4>
-                  <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                    Find activities
-                  </a>
-
-                  <ul class="dropdown-menu" aria-labelledby="Find activitis">
-                    <% for(int i=0; i< activites.size(); i++) { %>
-                    <li><a class="dropdown-item" href="ToListerVoyage?idActivite=<%= activites.get(i).getIdActivite() %>"><%= activites.get(i).getActivite() %></a></li>
-                    <% } %>
-                  </ul>
-                </div>
-              </div>
-            </div>
-                  
-            <div class="col-md-3 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Recherche par Total Activite</h4>
-                  <div class="col-md-12 grid-margin stretch-card">
-                        <form action="ToListerVoyage">
-                            <label>Min: </label>
-                            <input type="number" min="0" class="form-control" value="0" name="prixMin" placeholder="Prix min" required>
-                            <label>Max: </label>
-                            <input type="number" min="0" class="form-control" value="0" name="prixMax" placeholder="Prix max" required>
-                            <button type="submit" name="minmax" value="totActivite" class="btn btn-primary me-2">Valider</button>
-                        </form>
-                    </div>
-                </div>
-              </div>
-            </div>
-                  
-            <div class="col-md-3 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Recherche par Benefice</h4>
-                  <div class="col-md-12 grid-margin stretch-card">
-                        <form action="ToListerVoyage">
-                            <label>Min: </label>
-                            <input type="number" class="form-control" value="0" name="prixMin" placeholder="Prix min" required>
-                            <label>Max: </label>
-                            <input type="number" class="form-control" value="0" name="prixMax" placeholder="Prix max" required>
-                            <button type="submit" name="minmax" value="benefice" class="btn btn-primary me-2">Valider</button>
-                        </form>
-                    </div>
-                </div>
-              </div>
-            </div>
             
         </div>
-        </div>
-                  <script>
-    // Code JavaScript pour manipuler les chiffres directement au chargement de la page
-    window.onload = function() {
-      // Récupérer l'élément <p>
-      var pElement = document.getElementById('chiffresAvecE');
-
-      // Récupérer le texte à l'intérieur de la balise <p>
-      var texte = pElement.textContent;
-
-      // Supprimer les caractères 'E'
-      var chiffresSansE = texte.replace(/E/g, '');
-
-      // Formater avec des espaces de milliers
-      var chiffresFormates = parseFloat(chiffresSansE).toLocaleString();
-
-      // Mettre à jour le contenu de la balise <p>
-      pElement.textContent = chiffresFormates;
-    };
-  </script>
+                 
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
         <footer class="footer">

@@ -10,7 +10,6 @@ import generalise.CrudOperation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,7 +23,7 @@ import model.vue.V_Voyage;
  *
  * @author PC
  */
-public class ToListerVoyage extends HttpServlet {
+public class ToModifierVoyage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,68 +42,22 @@ public class ToListerVoyage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ToListerVoyage</title>");            
+            out.println("<title>Servlet ToModifierVoyage</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ToListerVoyage at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ToModifierVoyage at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
             
             try{
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
+                List<V_Voyage> v_voyages = crud.selectAll(V_Voyage.class);
                 
-                String successMessage = (String)request.getAttribute("successMessage");
-                String errorMessage = (String)request.getAttribute("errorMessage");
-                
-                if(errorMessage!=null && !errorMessage.isEmpty()){
-                    request.setAttribute("errorMessage", errorMessage);
-                }
-                if(successMessage!=null && !successMessage.isEmpty()){
-                    request.setAttribute("successMessage", successMessage);
-                }
-                
-                List<Activite> activites = crud.selectAll(Activite.class);
-                request.setAttribute("activites", activites);
-                
-                String idActiviteStr = request.getParameter("idActivite");
-                String prixMinStr = request.getParameter("prixMin");
-                String prixMaxStr = request.getParameter("prixMax");
-                
-                List<V_Voyage> v_voyages = new ArrayList<>();
-                
-                if(idActiviteStr!=null && !idActiviteStr.isEmpty()){
-                    out.println("Misy idActivite");
-                    int idActivite = Integer.parseInt(idActiviteStr);
-                    
-                    out.println("idActivite: "+idActivite);
-                    v_voyages = V_Voyage.getAllVoyageByIdActivite(connection, idActivite);
-                    
-                }
-                else if(prixMinStr!=null && !prixMinStr.isEmpty() && prixMaxStr!=null && !prixMaxStr.isEmpty()){
-                    String minmax = request.getParameter("minmax");
-                    out.println("Misy prix minmax");
-                    double prixMin = Double.parseDouble(prixMinStr);
-                    double prixMax = Double.parseDouble(prixMaxStr);
-                    
-                    if(minmax.equals("totActivite")) v_voyages = V_Voyage.getAllVoyageByTotalActiviteMinMax(connection, prixMin, prixMax);
-                    if(minmax.equals("benefice")) v_voyages = V_Voyage.getAllVoyageByBeneficeMinMax(connection, prixMin, prixMax);
-                }
-                else{
-                    out.println("Tsisy inina");
-                    v_voyages  = crud.selectAll(V_Voyage.class);
-                    
-                }
-
                 connection.close();
-                
                 request.setAttribute("v_voyages", v_voyages);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("pages/lister/listerVoyage.jsp");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("pages/modifier/modifierVoyage.jsp");
                 dispatcher.forward(request, response);
-                
-                
-                
-                
             }catch(Exception e){
                 e.printStackTrace(out);
             }

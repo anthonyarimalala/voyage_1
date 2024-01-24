@@ -15,6 +15,21 @@ CREATE TABLE duree (
     valeur FLOAT NOT NULL
 );
 
+CREATE TABLE promo_emp(
+    id_promotion SERIAL PRIMARY KEY,
+    promotion VARCHAR(255),
+    annee_requis INTEGER,
+    multipl FLOAT DEFAULT(1)
+);
+
+CREATE TABLE l_promo_emp(
+    id_l_promotion SERIAL PRIMARY KEY,
+    id_promotion INTEGER REFERENCES promo_emp(id_promotion) ON DELETE CASCADE,
+    promotion VARCHAR(255),
+    annee_requis INTEGER,
+    multipl FLOAT DEFAULT(1)
+);
+
 CREATE TABLE experience(
     id_experience SERIAL PRIMARY KEY,
     experience VARCHAR(255) NOT NULL,
