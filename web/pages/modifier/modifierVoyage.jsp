@@ -5,11 +5,13 @@
 <!DOCTYPE html>
 
 <%@page import="model.voyage.Voyage"%>
+<%@page import="model.voyage.Employe"%>
 <%@page import="utils.Utils"%>
 <%@page import="java.util.List"%>
 <%
     List<Activite> activites = (List<Activite>) request.getAttribute("activites");
     List<V_Voyage> v_voyages = (List<V_Voyage>) request.getAttribute("v_voyages");
+    List<Employe> employes = (List<Employe>) request.getAttribute("employes");
     
     Object errorObj = request.getAttribute("errorMessage");
     String errorMessage = "";
@@ -18,6 +20,8 @@
     Object successObj = request.getAttribute("successMessage");
     String successMessage = "";
     if(successObj!=null) successMessage = (String) successObj; 
+
+
     
 %>
 
@@ -53,11 +57,7 @@
         <div class="content-wrapper">
             <h2 id="content-types">Liste des voyages (<%= v_voyages.size() %>):</h2><br/>
             <!--<p>Cards support a wide variety of content, including images, text, list groups, links, and more. Below are examples of what's supported.</p>-->
-            <div class="dropdown">
-                <a class="btn btn-primary" href="ToListerVoyage" role="button">
-                  All
-                </a>
-              </div>
+            
            
                   
           
@@ -78,7 +78,7 @@
            <div class="row">
               
               <% for(int i=0; i< v_voyages.size(); i++) { %>
-              <form action="ModifierReservationServlet">
+              <form action="ModifierVoyageServlet">
             <div class="col-md-4 grid-margin stretch-card">
               <div class="card" style="width: 18rem;">
                 <!--<img src="..." class="card-img-top" alt="...">-->
@@ -94,10 +94,20 @@
                   <li class="list-group-item"><strong>Total activite: </strong><%= Utils.formatDouble(v_voyages.get(i).getPrixTotActivite()) %></li>
                   <li class="list-group-item"><strong>Total employe: </strong><%= Utils.formatDouble(v_voyages.get(i).getPrixTotEmploye()) %></li>
                   <li class="list-group-item"><strong>Benefice: </strong><%= Utils.formatDouble(v_voyages.get(i).getBenefice()) %></li>
-                  
-                  
-                  
+                  <li class="list-group-item"><strong class="col-sm-3 col-form-label">Employes: </strong>
+                      <div class="col-sm-9">
+                      <% for(int j=0; j<employes.size(); j++) { %>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="idEmployes" value="<%= employes.get(j).getIdEmploye() %>">
+                            <label class="form-check-label"><%= employes.get(j).getNom() %>: <%= employes.get(j).getFonction() %></label>
+                            <input class="form-control hour-input" type="number" name="heure<%= employes.get(j).getIdEmploye() %>" placeholder="volume horaire" min="0" value="0" id="exampleInputUsername1">
+                        </div>
+                      <% } %>
+                      </div>
+                      
+                  </li>
                 </ul>
+                      
                   
                     <div class="card-body">
                       <input type="text" name="idVoyage" value="<%= v_voyages.get(i).getIdVoyage() %>" hidden />

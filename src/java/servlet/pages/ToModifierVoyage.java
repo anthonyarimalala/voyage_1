@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.voyage.Activite;
+import model.voyage.Employe;
 import model.vue.V_Voyage;
 
 /**
@@ -53,6 +54,12 @@ public class ToModifierVoyage extends HttpServlet {
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 List<V_Voyage> v_voyages = crud.selectAll(V_Voyage.class);
+                
+                String successMessage = (String)request.getAttribute("successMessage");
+                request.setAttribute("successMessage", successMessage);
+                
+                List<Employe> employes = crud.selectAll(Employe.class);
+                request.setAttribute("employes", employes);
                 
                 connection.close();
                 request.setAttribute("v_voyages", v_voyages);

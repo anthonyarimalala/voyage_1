@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.voyage.Voyage;
 
 /**
  *
@@ -51,9 +52,16 @@ public class ModifierVoyageServlet extends HttpServlet {
                 CrudOperation crud = new CrudOperation(connection);
                 
                 int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
+                double prix = Double.parseDouble(request.getParameter("prix"));
+                Voyage voyage = crud.selectById(Voyage.class, idVoyage);
+                voyage.setPrix(prix);
+                
+                crud.update(voyage, idVoyage);
+                
+                request.setAttribute("successMessage", "Voyage modifié avec success!");
                 
                 connection.close();
-                RequestDispatcher dispatcher = request.getRequestDispatcher("");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("ToModifierVoyage");
                 dispatcher.forward(request, response);
             }catch(Exception e){
                 e.printStackTrace(out);
