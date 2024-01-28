@@ -84,12 +84,19 @@ CREATE TABLE stock (
     sortie FLOAT
 );
 
+create table client (
+  id_client serial primary key,
+  nom varchar(255),
+  prenom varchar(255),
+  genre int
+);
+
 -- 0: Confirmé
 -- 1: Réservé
 -- 2: Annulé
 CREATE TABLE reservation (
     id_reservation SERIAL PRIMARY KEY,
-    nom_reservation VARCHAR(255),
+    id_client INTEGER REFERENCES client(id_client) ON DELETE CASCADE,
     date_reservation DATE DEFAULT CURRENT_DATE,
     id_voyage INT REFERENCES voyage(id_voyage) ON DELETE CASCADE,
     quantite FLOAT,

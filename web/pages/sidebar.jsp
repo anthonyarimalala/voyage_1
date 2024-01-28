@@ -52,6 +52,7 @@
             <li class="nav-item"> <a class="nav-link" href="ToListerBouquetActivite">Activite par bouquet</a></li>
             <li class="nav-item"> <a class="nav-link" href="ToListerVoyage">Voyage</a></li>
             <li class="nav-item"> <a class="nav-link" href="ToListerEmploye">Employe</a></li>
+            <li class="nav-item"> <a class="nav-link" href="ToListerStatistic">Statistics</a></li>
           </ul>
         </div>
       </li>

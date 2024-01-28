@@ -38,6 +38,36 @@
         <div class="content-wrapper">
           <div class="row">
               
+              <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Inserer Client</h4>
+                  <p class="card-description">
+                    
+                  </p>
+                  <form action="InsererClientServlet" method="post" class="forms-sample">
+                    <div class="form-group">
+                       
+                      <label for="exampleInputUsername1">Nom</label>
+                      <input type="text" name="nom" class="form-control" id="exampleInputUsername1" placeholder="nom" required>
+                        
+                      <label for="exampleInputUsername1">Prenom</label>
+                      <input type="text" name="prenom" class="form-control" id="exampleInputUsername1" placeholder="prenom" required>
+                      
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Genre</label>
+                       <select name="genre" class="form-control">
+                        <option value="1">Homme</option>
+                        <option value="0">Femme</option>
+                       </select>
+                    
+                      
+                    
+                    </div>
+                    <button type="submit" class="btn btn-primary me-2" value='inserLieu'>Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
               
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card">

@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.insertion;
+package servlet.pages;
 
 import database.Connex;
 import generalise.CrudOperation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -19,18 +17,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.voyage.Activite;
-import model.voyage.Reservation;
-import model.voyage.Stock;
-import model.vue.V_Stock;
-import model.vue.V_StockQuantiteReste;
-import model.vue.V_Voyage;
+import model.voyage.Voyage;
+import model.vue.V_Statistic;
 
 /**
  *
  * @author PC
  */
-public class InsererReservationServlet extends HttpServlet {
+public class ToListerStatistic extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,54 +43,46 @@ public class InsererReservationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InsererReservationServlet</title>");            
+            out.println("<title>Servlet ToListerStatistic</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet InsererReservationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ToListerStatistic at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-            
-            try{
+             try{
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 
-                double quantite = Double.parseDouble(request.getParameter("quantite"));
                 
-                int idClient = Integer.parseInt(request.getParameter("idClient"));
+                String idVoyage = request.getParameter("idVoyage");
+                List<V_Statistic> stats = new ArrayList<>();
                 
-                int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
-                List<V_StockQuantiteReste> quantiteReste = V_StockQuantiteReste.ampy(connection, idVoyage, quantite);
-                
-                Stock stock = new Stock();
-                
-                for(int i=0; i<quantiteReste.size(); i++){
-                    stock.setIdActivite(quantiteReste.get(i).getIdActivite());
-                    stock.setEntree(0);
-                    stock.setSortie(quantiteReste.get(i).getQuantiteHiala());
-                    stock.setDateModif(new Date(System.currentTimeMillis()));
-                    
-                    crud.save(stock);
+                if(idVoyage!=null && !idVoyage.isEmpty()){
+                    V_Statistic statistic = V_Statistic.selectByIdVoyage(connection, Integer.parseInt(idVoyage));
+                    if(statistic==null){
+                        Voyage voyage = crud.selectById(Voyage.class, Integer.parseInt(idVoyage));
+                        statistic = new V_Statistic();
+                        statistic.setIdVoyage(voyage.getIdVoyage());
+                        statistic.setSommeFemme(0);
+                        statistic.setSommeHomme(0);
+                        statistic.setVoyage(voyage.getVoyage());
+                    }
+                    stats.add(statistic);
+                }else{
+                    stats = crud.selectAll(V_Statistic.class);
                 }
-                Reservation reservation = new Reservation();
-                reservation.setIdVoyage(idVoyage);
-                reservation.setDateReservation(new Date(System.currentTimeMillis()));
-                reservation.setIdClient(idClient);
-                reservation.setQuantite(quantite);
                 
-                crud.save(reservation);
+                List<Voyage> voyages = crud.selectAll(Voyage.class);
                 
-                request.setAttribute("successMessage", "Vous avez réservé pour ce voyage");
-                
+                request.setAttribute("voyages", voyages);
+                request.setAttribute("stats", stats);
                 
                 connection.close();
-                
+                RequestDispatcher dispatcher = request.getRequestDispatcher("pages/lister/listerStatistics.jsp");
+                dispatcher.forward(request, response);
             }catch(Exception e){
-                request.setAttribute("errorMessage", e.getMessage());
+                e.printStackTrace(out);
             }
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("ToListerVoyage");
-            dispatcher.forward(request, response);
-            
         }
     }
 

@@ -11,8 +11,8 @@ public class Reservation {
     @Column(name="id_reservation", autoIncrement = true, id = true)
     int idReservation;
     
-    @Column(name="nom_reservation")
-    String nomReservation;
+    @Column(name="id_client")
+    int idClient;
     
     @Column(name="date_reservation")
     Date dateReservation;
@@ -37,13 +37,16 @@ public class Reservation {
         this.idReservation = idReservation;
     }
 
-    public String getNomReservation() {
-        return nomReservation;
+    public int getIdClient() {
+        return idClient;
     }
 
-    public void setNomReservation(String nomReservation) {
-        this.nomReservation = nomReservation;
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
     }
+
+ 
+    
 
     public Date getDateReservation() {
         return dateReservation;

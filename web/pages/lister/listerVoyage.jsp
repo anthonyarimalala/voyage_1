@@ -1,4 +1,5 @@
 <%@page import="model.voyage.Activite"%>
+<%@page import="model.voyage.Client"%>
 <%@page import="model.vue.V_Voyage"%>
 
 
@@ -10,6 +11,7 @@
 <%
     List<Activite> activites = (List<Activite>) request.getAttribute("activites");
     List<V_Voyage> v_voyages = (List<V_Voyage>) request.getAttribute("v_voyages");
+    List<Client> clients = (List<Client>) request.getAttribute("clients");
     
     Object errorObj = request.getAttribute("errorMessage");
     String errorMessage = "";
@@ -100,8 +102,12 @@
                   <form action="InsererReservationServlet">
                     <div class="card-body">
                       <input type="text" name="idVoyage" value="<%= v_voyages.get(i).getIdVoyage() %>" hidden />
-                      <label for="exampleInputUsername1">Nom de reservation</label>
-                      <input type="text" name="nomReservation" class="form-control" id="exampleInputUsername1" placeholder="Nom de reservation" required>
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Client</label>
+                      <select name="idClient" class="form-control">
+                        <% for(int j=0; j<clients.size(); j++) { %>
+                        <option value="<%= clients.get(j).getIdClient() %>"><%= clients.get(j).getNom() %></option>
+                        <% } %>
+                      </select>
                       <label for="exampleInputUsername1">Quantite</label>
                       <input type="number" min="1" name="quantite" class="form-control" id="exampleInputUsername1" placeholder="Quantite" required>
                       <button type="submit" name="byPrix" value="ok" class="btn btn-primary me-2">Reserver</button>
@@ -171,25 +177,7 @@
             
         </div>
         </div>
-                  <script>
-    // Code JavaScript pour manipuler les chiffres directement au chargement de la page
-    window.onload = function() {
-      // Récupérer l'élément <p>
-      var pElement = document.getElementById('chiffresAvecE');
-
-      // Récupérer le texte à l'intérieur de la balise <p>
-      var texte = pElement.textContent;
-
-      // Supprimer les caractères 'E'
-      var chiffresSansE = texte.replace(/E/g, '');
-
-      // Formater avec des espaces de milliers
-      var chiffresFormates = parseFloat(chiffresSansE).toLocaleString();
-
-      // Mettre à jour le contenu de la balise <p>
-      pElement.textContent = chiffresFormates;
-    };
-  </script>
+                 
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
         <footer class="footer">

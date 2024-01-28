@@ -88,6 +88,14 @@
         <servlet-name>ModifierVoyageServlet</servlet-name>
         <servlet-class>servlet.modification.ModifierVoyageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ToListerStatistic</servlet-name>
+        <servlet-class>servlet.pages.ToListerStatistic</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>InsererClientServlet</servlet-name>
+        <servlet-class>servlet.insertion.InsererClientServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ToHome</servlet-name>
         <url-pattern>/ToHome</url-pattern>
@@ -175,6 +183,14 @@
     <servlet-mapping>
         <servlet-name>ModifierVoyageServlet</servlet-name>
         <url-pattern>/ModifierVoyageServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToListerStatistic</servlet-name>
+        <url-pattern>/ToListerStatistic</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InsererClientServlet</servlet-name>
+        <url-pattern>/InsererClientServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

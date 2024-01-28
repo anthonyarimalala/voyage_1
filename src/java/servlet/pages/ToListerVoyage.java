@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.voyage.Activite;
+import model.voyage.Client;
 import model.vue.V_Voyage;
 
 /**
@@ -72,6 +73,7 @@ public class ToListerVoyage extends HttpServlet {
                 String prixMaxStr = request.getParameter("prixMax");
                 
                 List<V_Voyage> v_voyages = new ArrayList<>();
+                List<Client> clients = crud.selectAll(Client.class);
                 
                 if(idActiviteStr!=null && !idActiviteStr.isEmpty()){
                     out.println("Misy idActivite");
@@ -98,6 +100,7 @@ public class ToListerVoyage extends HttpServlet {
 
                 connection.close();
                 
+                request.setAttribute("clients", clients);
                 request.setAttribute("v_voyages", v_voyages);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("pages/lister/listerVoyage.jsp");
                 dispatcher.forward(request, response);
