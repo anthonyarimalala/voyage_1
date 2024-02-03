@@ -73,54 +73,60 @@
               </div>
               <% } %>
             <br>
+           
+            <form action="ModifierVoyageServlet">
+            <div class="row">
             
-            
-           <div class="row">
               
-              <% for(int i=0; i< v_voyages.size(); i++) { %>
-              <form action="ModifierVoyageServlet">
-            <div class="col-md-4 grid-margin stretch-card">
-              <div class="card" style="width: 18rem;">
-                <!--<img src="..." class="card-img-top" alt="...">-->
-                <div class="card-body">
-                  <h5 class="card-title"><%= v_voyages.get(i).getVoyage() %></h5>
-                  <p class="card-text"><%= v_voyages.get(i).getDescription() %></p>
-                </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><strong>Duree:    </strong><%= v_voyages.get(i).getDuree() %></li>
-                  <li class="list-group-item"><strong>Lieu:    </strong><%= v_voyages.get(i).getLieu() %></li>
-                  <li class="list-group-item"><strong>Bouquet: </strong><%= v_voyages.get(i).getBouquet() %></li>
-                  <li class="list-group-item"><strong>Prix: </strong><input type="number" name="prix" min="1000" value="<%= v_voyages.get(i).getPrix() %>" required /> <%= Utils.formatDouble(v_voyages.get(i).getPrix()) %> </li>
-                  <li class="list-group-item"><strong>Total activite: </strong><%= Utils.formatDouble(v_voyages.get(i).getPrixTotActivite()) %></li>
-                  <li class="list-group-item"><strong>Total employe: </strong><%= Utils.formatDouble(v_voyages.get(i).getPrixTotEmploye()) %></li>
-                  <li class="list-group-item"><strong>Benefice: </strong><%= Utils.formatDouble(v_voyages.get(i).getBenefice()) %></li>
-                  <li class="list-group-item"><strong class="col-sm-3 col-form-label">Employes: </strong>
-                      <div class="col-sm-9">
-                      <% for(int j=0; j<employes.size(); j++) { %>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="idEmployes" value="<%= employes.get(j).getIdEmploye() %>">
-                            <label class="form-check-label"><%= employes.get(j).getNom() %>: <%= employes.get(j).getFonction() %></label>
-                            <input class="form-control hour-input" type="number" name="heure<%= employes.get(j).getIdEmploye() %>" placeholder="volume horaire" min="0" value="0" id="exampleInputUsername1">
-                        </div>
-                      <% } %>
-                      </div>
-                      
-                  </li>
-                </ul>
-                      
-                  
+                <% for(int i=0; i< v_voyages.size(); i++) { %>
+                  <input type="text" name="idVoyage" value="<%= v_voyages.get(i).getIdVoyage() %>" hidden />
+                <div class="col-md-4 grid-margin stretch-card">
+                  <div class="card" style="width: 18rem;">
+                    <!--<img src="..." class="card-img-top" alt="...">-->
                     <div class="card-body">
-                      <input type="text" name="idVoyage" value="<%= v_voyages.get(i).getIdVoyage() %>" hidden />
-                      <button type="submit" name="byPrix" value="ok" class="btn btn-primary me-2">Mise à jour</button>
-                      
+                      <h5 class="card-title"><%= v_voyages.get(i).getVoyage() %></h5>
+                      <p class="card-text"><%= v_voyages.get(i).getDescription() %></p>
                     </div>
-                  </form>
-              </div>
-            </div>
-            <% } %>
-                  
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><strong>Duree:    </strong><%= v_voyages.get(i).getDuree() %></li>
+                      <li class="list-group-item"><strong>Lieu:    </strong><%= v_voyages.get(i).getLieu() %></li>
+                      <li class="list-group-item"><strong>Bouquet: </strong><%= v_voyages.get(i).getBouquet() %></li>
+                      <li class="list-group-item"><strong>Prix: </strong><input type="number" name="prix" min="1000" value="<%= v_voyages.get(i).getPrix() %>" required /> <%= Utils.formatDouble(v_voyages.get(i).getPrix()) %></li>
+                      <li class="list-group-item"><strong>Total activite: </strong><%= Utils.formatDouble(v_voyages.get(i).getPrixTotActivite()) %></li>
+                      <li class="list-group-item"><strong>Total employe: </strong><%= Utils.formatDouble(v_voyages.get(i).getPrixTotEmploye()) %></li>
+                      <li class="list-group-item"><strong>Benefice: </strong><%= Utils.formatDouble(v_voyages.get(i).getBenefice()) %></li>
+                      <li class="list-group-item">
+                          <div class="form-group row">
+                              <select name="isModifEmploye" class="form-control">
+                                  <option value="0">Ne pas modifier les employes</option>
+                                  <option value="1">Modifier les employes</option>
+                              </select>
+                            <label for="exampleInputEmail2" class="col-sm-3 col-form-label"><strong>Employes:</strong></label>
+                            <div class="col-sm-9">
+                            <% for(int j=0; j<employes.size(); j++) { %>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="idEmployes" value="<%= employes.get(j).getIdEmploye() %>">
+                                    <label class="form-check-label"><%= employes.get(j).getNom() %>: <%= employes.get(j).getFonction() %></label>
+                                    <input class="form-control hour-input" type="number" name="heure<%= employes.get(j).getIdEmploye() %>" placeholder="taux horaire" min="0" value="0" id="exampleInputUsername1">
+                                </div>
+                            <% } %>
+                            </div>
+                        </div>
+                      </li>
+
+                    </ul>
+                        <div class="card-body">
+                          <input type="text" name="idVoyage" value="<%= v_voyages.get(i).getIdVoyage() %>" hidden />
+                          <button type="submit" name="byPrix" value="ok" class="btn btn-primary me-2">Mise à jour</button>
+
+                        </div>
+                  </div>
+
+                </div>
+                <% } %>
+                
           </div>
-            
+            </form>
         </div>
                  
         <!-- content-wrapper ends -->

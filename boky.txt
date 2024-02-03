@@ -1,0 +1,32 @@
+j'ai un projet de developpement de chef de projet.
+je veux faire un livre de projet de soutenance.
+je veux afficher:
+    -la liste des classes
+    -la liste des taches attribué à chaque développeur.
+    -des captures d'écrans
+    -le schéma de la base de donnée
+comment je fais celà? Peux-tu faire le sommaire de mon livre s'il te plait?
+
+Peux-tu rédiger le livre à partir de celà:
+c'est un projet de voyage organisé. Voici les détails du projet:
+Un voyage est caractérisé par les point suivants:
+    -durée
+    -Les activités
+    -Lieu(régionale, internationale, locale)
+    -Bouquet(premium, vip, gold, découverte)
+    -son prix
+
+Le nombre d'étoile dépend de la duree, du lieu et du bouquet
+Les activités dépendent du bouquet
+Les durées de chaque activité dépendent de la durée du voyage, du lieu et du bouquet.
+
+Voici les fonctionnalités du projet:
+-liste des activités par bouquet
+-formule de composition de voyage (ex: "Voyage locale premium": picnic courte: 2, picnic moyenne: 4)
+-Liste de voyage comprenant une activié choisie
+-Une activité a un tarif
+-Liste des voyages ayant une valeur totale des activités correspondantes entre 2 montants
+-Un simple agent devient senior automatique apres 2 ans de travail
+-Un senior devient expert après 3 ans de travail. Le taux horaire d'un senior est 2 fois plus que le taux horaire d'un simple agent. Le taux horaire d'un expert est 3 fois plus que ouvrier.
+-liste des postes actuelles de toutes les personnes avec son taux horaire
+-Statistique de nombre de ventes par genre(sous forme de tableay et sous forme de graphe)

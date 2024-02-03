@@ -91,16 +91,16 @@ create table client (
   genre int
 );
 
--- 0: Confirmé
--- 1: Réservé
--- 2: Annulé
+-- 0: Annulé
+-- 5: En attente
+-- 10: Confirmé
 CREATE TABLE reservation (
     id_reservation SERIAL PRIMARY KEY,
     id_client INTEGER REFERENCES client(id_client) ON DELETE CASCADE,
     date_reservation DATE DEFAULT CURRENT_DATE,
     id_voyage INT REFERENCES voyage(id_voyage) ON DELETE CASCADE,
     quantite FLOAT,
-    etat INTEGER DEFAULT 1
+    etat INTEGER DEFAULT 5
 );
 
 CREATE TABLE l_voyage_employe(

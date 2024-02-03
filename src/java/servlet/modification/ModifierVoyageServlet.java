@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.liaison.L_VoyageEmploye;
 import model.voyage.Voyage;
 
 /**
@@ -51,10 +52,36 @@ public class ModifierVoyageServlet extends HttpServlet {
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 
+                
+                
+                
                 int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
                 double prix = Double.parseDouble(request.getParameter("prix"));
                 Voyage voyage = crud.selectById(Voyage.class, idVoyage);
                 voyage.setPrix(prix);
+                
+                int isModifEmploye = Integer.parseInt(request.getParameter("isModifEmploye"));
+                if(isModifEmploye == 1){
+                    String[] idEmployesStr = request.getParameterValues("idEmployes");
+                    L_VoyageEmploye voyageEmploye = new L_VoyageEmploye();
+                    crud.delete(L_VoyageEmploye.class, "id_voyage", idVoyage);
+                    if(idEmployesStr != null){
+                        for(int i=0; i<idEmployesStr.length; i++){
+                            out.println("<br/> idEmploye: "+idEmployesStr[i]);
+                            int idEmploye = Integer.parseInt(idEmployesStr[i]);
+                            String myParameter = "heure"+idEmploye;
+                            double volumeHoraire = Double.parseDouble(request.getParameter(myParameter));
+                            out.println(", Volume horaire: "+volumeHoraire);
+
+
+                            voyageEmploye.setIdEmploye(idEmploye);
+                            voyageEmploye.setIdVoyage(idVoyage);
+                            voyageEmploye.setVolumeH(volumeHoraire);
+
+                            out.println("<br/> idVoyageEmploye: "+crud.saveReturn(voyageEmploye));
+                       }
+                    }
+                }
                 
                 crud.update(voyage, idVoyage);
                 

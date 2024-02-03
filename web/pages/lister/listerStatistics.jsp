@@ -56,7 +56,7 @@
         <div class="content-wrapper">
         <div class="row">
             <h2 id="content-types">Liste des voyages (<%= voyages.size() %>):</h2><br/>
-            <!--<p>Cards support a wide variety of content, including images, text, list groups, links, and more. Below are examples of what's supported.</p>-->
+            <p>Raha tsy hita ato dia jereo aloha raha validé ilay réservation. (Modifier réservation)</p>
             <div class="dropdown">
                 <a class="btn btn-primary" href="ToListerStatistic" role="button">
                   All

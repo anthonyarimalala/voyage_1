@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.insertion;
+package servlet.modification;
 
 import database.Connex;
 import generalise.CrudOperation;
@@ -16,14 +16,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.liaison.L_FormuleComposition;
-import model.vue.V_BouquetActivite;
+import model.voyage.Reservation;
+import model.voyage.Stock;
+import model.vue.V_StockQuantiteReste;
 
 /**
  *
  * @author PC
  */
-public class InsererFormuleCompositionServlet extends HttpServlet {
+public class ModifierReservationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +43,10 @@ public class InsererFormuleCompositionServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InsererFormuleCompositionServlet</title>");            
+            out.println("<title>Servlet ModifierReservationServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet InsererFormuleCompositionServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ModifierReservationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
             
@@ -53,28 +54,32 @@ public class InsererFormuleCompositionServlet extends HttpServlet {
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 
-                int idLieu = Integer.parseInt(request.getParameter("idLieu"));
-                int idBouquet = Integer.parseInt(request.getParameter("idBouquet"));
-                int idDuree = Integer.parseInt(request.getParameter("idDuree"));
+                int etat = Integer.parseInt(request.getParameter("etat"));
+                int idReservation = Integer.parseInt(request.getParameter("idReservation"));
                 
-                List<V_BouquetActivite> v_bouquetServlet = crud.selectAllById(V_BouquetActivite.class , "id_bouquet", idBouquet);
+                Reservation reservation = crud.selectById(Reservation.class, idReservation);
+                reservation.setEtat(etat);
                 
-                L_FormuleComposition.deleteByKeys(connection, idLieu, idBouquet, idDuree);
+//                annuler: v_stock_quantite_reste
+                List<V_StockQuantiteReste> quantiteRestes = crud.selectAllById(V_StockQuantiteReste.class, "id_voyage", reservation.getIdVoyage());
+                Stock stock = new Stock();
                 
-                L_FormuleComposition formule = new L_FormuleComposition();
-                formule.setIdLieu(idLieu);
-                formule.setIdBouquet(idBouquet);
-                formule.setIdDuree(idDuree);
-                
-                for(V_BouquetActivite ba: v_bouquetServlet){
-                    formule.setIdActivite(ba.getIdActivite());
-                    formule.setQuantite(Integer.parseInt(request.getParameter(String.valueOf(ba.getIdActivite()))));
-                    crud.save(formule);
+                if(etat==0){
+                    for(int i=0; i<quantiteRestes.size(); i++){
+                        stock.setEntree(quantiteRestes.get(i).getQuantite()*reservation.getQuantite());
+                        stock.setSortie(0);
+                        stock.setIdActivite(quantiteRestes.get(i).getIdActivite());
+                        crud.save(stock);
+                    }
                 }
                 
                 
+                crud.update(reservation, idReservation);
+                
+                
                 connection.close();
-                response.sendRedirect("ToInsererFormuleComposition");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("ToModifierReservation");
+                dispatcher.forward(request, response);
             }catch(Exception e){
                 e.printStackTrace(out);
             }

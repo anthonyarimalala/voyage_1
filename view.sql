@@ -96,7 +96,9 @@ CREATE OR REPLACE VIEW v_stock AS
 SELECT 
         a.id_activite,
         a.activite,
-        COALESCE(SUM(s.entree - s.sortie), 0) AS restant
+        COALESCE(SUM(s.entree - s.sortie), 0) AS restant,
+        a.prix_u,
+        COALESCE(SUM(s.entree - s.sortie), 0)*a.prix_u AS prix_totale
     FROM activite a
     LEFT JOIN stock s ON s.id_activite = a.id_activite
     GROUP BY 
@@ -131,3 +133,38 @@ SELECT
     FROM employe e
     LEFT JOIN l_promo_emp lpe ON EXTRACT(YEAR FROM AGE(CURRENT_DATE, e.date_embauche))::INTEGER = lpe.annee_requis;
 
+CREATE OR REPLACE VIEW v_reservation AS
+SELECT
+        r.*,
+        v.voyage,
+        c.nom,
+        c.prenom,
+        c.genre
+    FROM reservation r
+    JOIN client c ON r.id_client = c.id_client
+    JOIN voyage v ON r.id_voyage = v.id_voyage
+    ;
+
+CREATE OR REPLACE VIEW v_statistic AS
+SELECT
+    vr.id_voyage,
+    vr.voyage,
+    (SELECT SUM(quantite) FROM v_reservation WHERE id_voyage = vr.id_voyage AND genre=0 AND v_reservation.etat=10) AS somme_femme,
+    (SELECT SUM(quantite) FROM v_reservation WHERE id_voyage = vr.id_voyage AND genre=1 AND v_reservation.etat=10) AS somme_homme
+    FROM v_reservation vr
+    WHERE vr.etat = 10
+    GROUP BY vr.id_voyage, vr.voyage;
+
+CREATE OR REPLACE VIEW v_formule_composition AS
+SELECT
+        lfc.*,
+        l.lieu,
+        b.bouquet,
+        d.duree,
+        a.activite
+    FROM l_formule_composition lfc
+    JOIN lieu l ON lfc.id_lieu=l.id_lieu
+    JOIN bouquet b ON lfc.id_bouquet=b.id_bouquet
+    JOIN duree d ON lfc.id_duree=d.id_duree
+    JOIN activite a ON lfc.id_activite=a.id_activite
+    ORDER BY l.lieu ASC, b.bouquet ASC, d.duree ASC, a.activite ASC;

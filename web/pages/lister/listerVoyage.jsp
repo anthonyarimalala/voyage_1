@@ -13,6 +13,8 @@
     List<V_Voyage> v_voyages = (List<V_Voyage>) request.getAttribute("v_voyages");
     List<Client> clients = (List<Client>) request.getAttribute("clients");
     
+    String message = (String) request.getAttribute("message");
+    
     Object errorObj = request.getAttribute("errorMessage");
     String errorMessage = "";
     if(errorObj!=null) errorMessage = (String) errorObj; 
@@ -54,7 +56,7 @@
       <div class="main-panel">        
         <div class="content-wrapper">
             <h2 id="content-types">Liste des voyages (<%= v_voyages.size() %>):</h2><br/>
-            <!--<p>Cards support a wide variety of content, including images, text, list groups, links, and more. Below are examples of what's supported.</p>-->
+            <p><%= message %></p>
             <div class="dropdown">
                 <a class="btn btn-primary" href="ToListerVoyage" role="button">
                   All
@@ -111,7 +113,7 @@
                       <label for="exampleInputUsername1">Quantite</label>
                       <input type="number" min="1" name="quantite" class="form-control" id="exampleInputUsername1" placeholder="Quantite" required>
                       <button type="submit" name="byPrix" value="ok" class="btn btn-primary me-2">Reserver</button>
-                      <a href="#?idLieu=<%= v_voyages.get(i).getIdLieu() %>&&idBouquet=<%= v_voyages.get(i).getIdBouquet() %>&&duree=<%= v_voyages.get(i).getDuree() %>" class="card-link">Details</a>
+                      <a href="ToListerDetailVoyage?idVoyage=<%= v_voyages.get(i).getIdVoyage() %>&&idLieu=<%= v_voyages.get(i).getIdLieu() %>&&idBouquet=<%= v_voyages.get(i).getIdBouquet() %>&&idDuree=<%= v_voyages.get(i).getIdDuree() %>" class="card-link">Details</a>
                       
                     </div>
                   </form>

@@ -20,7 +20,7 @@ import model.voyage.Voyage;
 @Table(name="v_voyage")
 public class V_Voyage {
     
-    @Column(name="id_voyage")
+    @Column(name="id_voyage", autoIncrement = true, id = true)
     int idVoyage;
 
     @Column(name="id_bouquet")
@@ -61,8 +61,12 @@ public class V_Voyage {
     
     public static void main(String[] args) throws ClassNotFoundException, SQLException{
         Connection connection = Connex.getConnection();
+        CrudOperation crud = new CrudOperation(connection);
         List<V_Voyage> voyages = getAllVoyageByIdActivite(connection, 2);
         System.out.println(voyages.size());
+        
+        V_Voyage voy = crud.selectById(V_Voyage.class, 15);
+        System.out.println(voy.getVoyage());
         
 //        CrudOperation crud = new CrudOperation(connection);
 //        crud.selectAll(V_Voyage.class);

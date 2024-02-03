@@ -108,7 +108,7 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" name="idEmployes" value="<%= employes.get(i).getIdEmploye() %>">
                             <label class="form-check-label"><%= employes.get(i).getNom() %>: <%= employes.get(i).getFonction() %></label>
-                            <input class="form-control hour-input" type="number" name="heure<%= employes.get(i).getIdEmploye() %>" placeholder="volume horaire" min="0" value="0" id="exampleInputUsername1">
+                            <input class="form-control hour-input" type="number" name="heure<%= employes.get(i).getIdEmploye() %>" placeholder="taux horaire" min="0" value="0" id="exampleInputUsername1">
                         </div>
                         <% } %>
                       </div>

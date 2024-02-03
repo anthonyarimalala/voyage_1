@@ -1,1 +1,1 @@
-<jsp:forward page="ToHome" />
+<jsp:forward page="ToListerVoyage" />

@@ -3,20 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/generalise/CrudOperation.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/servlet/modification/ModifierVoyageServlet.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/utils/Utils.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/servlet/pages/ToModifierVoyage.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/voyage/PromoEmp.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/liaison/L_PromoEmp.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/servlet/pages/ToInsererVoyage.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/servlet/modification/ModifierPromotionServlet.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/vue/V_Voyage.java</file>
             <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/servlet/model/Model.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/liaison/L_VoyageEmploye.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/model/liaison/L_FormuleComposition.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/servlet/pages/ToModifierPromotion.java</file>
-            <file>file:/D:/ITU/S5/devoirs/mdmBaovola/voyage_1/src/java/servlet/pages/ToListerVoyage.java</file>
         </group>
     </open-files>
 </project-private>

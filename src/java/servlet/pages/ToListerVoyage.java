@@ -55,6 +55,7 @@ public class ToListerVoyage extends HttpServlet {
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 
+                String message = "Tous les voyages";
                 String successMessage = (String)request.getAttribute("successMessage");
                 String errorMessage = (String)request.getAttribute("errorMessage");
                 
@@ -78,6 +79,9 @@ public class ToListerVoyage extends HttpServlet {
                 if(idActiviteStr!=null && !idActiviteStr.isEmpty()){
                     out.println("Misy idActivite");
                     int idActivite = Integer.parseInt(idActiviteStr);
+                    Activite acti = crud.selectById(Activite.class, idActivite);
+                    
+                    message = "Voyage(s) avec l'activité: "+acti.getActivite();
                     
                     out.println("idActivite: "+idActivite);
                     v_voyages = V_Voyage.getAllVoyageByIdActivite(connection, idActivite);
@@ -89,17 +93,25 @@ public class ToListerVoyage extends HttpServlet {
                     double prixMin = Double.parseDouble(prixMinStr);
                     double prixMax = Double.parseDouble(prixMaxStr);
                     
-                    if(minmax.equals("totActivite")) v_voyages = V_Voyage.getAllVoyageByTotalActiviteMinMax(connection, prixMin, prixMax);
-                    if(minmax.equals("benefice")) v_voyages = V_Voyage.getAllVoyageByBeneficeMinMax(connection, prixMin, prixMax);
+                    if(minmax.equals("totActivite")){
+                        message = "Voyage(s) ayant comme prix total des activités entre: "+ prixMin +" et "+prixMax+".";
+                        v_voyages = V_Voyage.getAllVoyageByTotalActiviteMinMax(connection, prixMin, prixMax);
+                    }
+                    if(minmax.equals("benefice")){
+                        message = "Voyage(s) ayant comme bénéfice entre: "+ prixMin +" et "+prixMax+".";
+                        v_voyages = V_Voyage.getAllVoyageByBeneficeMinMax(connection, prixMin, prixMax);
+                    }
                 }
                 else{
                     out.println("Tsisy inina");
+                    message = "Tous les voyages";
                     v_voyages  = crud.selectAll(V_Voyage.class);
                     
                 }
 
                 connection.close();
                 
+                request.setAttribute("message", message);
                 request.setAttribute("clients", clients);
                 request.setAttribute("v_voyages", v_voyages);
                 RequestDispatcher dispatcher = request.getRequestDispatcher("pages/lister/listerVoyage.jsp");

@@ -82,6 +82,7 @@ public class InsererReservationServlet extends HttpServlet {
                 reservation.setDateReservation(new Date(System.currentTimeMillis()));
                 reservation.setIdClient(idClient);
                 reservation.setQuantite(quantite);
+                reservation.setEtat(5);
                 
                 crud.save(reservation);
                 

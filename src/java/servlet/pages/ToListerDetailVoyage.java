@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.insertion;
+package servlet.pages;
 
 import database.Connex;
 import generalise.CrudOperation;
@@ -16,14 +16,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.liaison.L_FormuleComposition;
-import model.vue.V_BouquetActivite;
+import model.vue.V_FormuleComposition;
+import model.vue.V_Voyage;
+import model.vue.V_VoyageEmploye;
 
 /**
  *
  * @author PC
  */
-public class InsererFormuleCompositionServlet extends HttpServlet {
+public class ToListerDetailVoyage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,43 +43,41 @@ public class InsererFormuleCompositionServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InsererFormuleCompositionServlet</title>");            
+            out.println("<title>Servlet ToListerDetailVoyage</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet InsererFormuleCompositionServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ToListerDetailVoyage at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
             
-             try{
+            try{
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 
-                int idLieu = Integer.parseInt(request.getParameter("idLieu"));
+                int idVoyage = Integer.parseInt(request.getParameter("idVoyage"));
                 int idBouquet = Integer.parseInt(request.getParameter("idBouquet"));
+                int idLieu = Integer.parseInt(request.getParameter("idLieu"));
                 int idDuree = Integer.parseInt(request.getParameter("idDuree"));
                 
-                List<V_BouquetActivite> v_bouquetServlet = crud.selectAllById(V_BouquetActivite.class , "id_bouquet", idBouquet);
+                List<V_VoyageEmploye> voyageEmployes = crud.selectAllById(V_VoyageEmploye.class, "id_voyage", idVoyage);
+                List<V_FormuleComposition> formuleCompositions = V_FormuleComposition.selectAll(connection, idLieu, idBouquet, idDuree);
                 
-                L_FormuleComposition.deleteByKeys(connection, idLieu, idBouquet, idDuree);
+                out.println("voyageEmployes: "+voyageEmployes.size());
+                out.println("formuleCompositions: "+formuleCompositions.size());
+                out.println("idVoyage: "+idVoyage);
                 
-                L_FormuleComposition formule = new L_FormuleComposition();
-                formule.setIdLieu(idLieu);
-                formule.setIdBouquet(idBouquet);
-                formule.setIdDuree(idDuree);
-                
-                for(V_BouquetActivite ba: v_bouquetServlet){
-                    formule.setIdActivite(ba.getIdActivite());
-                    formule.setQuantite(Integer.parseInt(request.getParameter(String.valueOf(ba.getIdActivite()))));
-                    crud.save(formule);
-                }
-                
+                V_Voyage voyage = crud.selectById(V_Voyage.class, idVoyage);
+                out.println("voyage: "+voyage.getVoyage());
+                request.setAttribute("voyageEmp", voyageEmployes);
+                request.setAttribute("formuleComp", formuleCompositions);
+                request.setAttribute("voyage", voyage);
                 
                 connection.close();
-                response.sendRedirect("ToInsererFormuleComposition");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("pages/lister/detailVoyage.jsp");
+                dispatcher.forward(request, response);
             }catch(Exception e){
                 e.printStackTrace(out);
             }
-             
         }
     }
 

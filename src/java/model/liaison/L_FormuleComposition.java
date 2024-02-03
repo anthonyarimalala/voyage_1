@@ -6,6 +6,7 @@ import generalise.Column;
 import generalise.CrudOperation;
 import generalise.Table;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @Table(name="l_formule_composition")
@@ -41,6 +42,19 @@ public class L_FormuleComposition {
         formule.setQuantite(1);
         
         crud.save(formule);
+    }
+    
+    public static void deleteByKeys(Connection connection, int idLieu, int idBouquet, int idDuree) throws SQLException {
+        // Requête SQL pour supprimer des enregistrements en fonction des clés
+        String query = "DELETE FROM l_formule_composition WHERE id_lieu = ? AND id_bouquet = ? AND id_duree = ?";
+        
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, idLieu);
+            statement.setInt(2, idBouquet);
+            statement.setInt(3, idDuree);
+            
+            statement.executeUpdate();
+        }
     }
 
     public L_FormuleComposition() {

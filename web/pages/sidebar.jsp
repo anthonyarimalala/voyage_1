@@ -3,10 +3,10 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
       <li class="nav-item">
-        <a class="nav-link" href="../../index.html">
+<!--        <a class="nav-link" href="../../index.html">
           <i class="mdi mdi-grid-large menu-icon"></i>
           <span class="menu-title">Dashboard</span>
-        </a>
+        </a>-->
       </li>
       
       <li class="nav-item nav-category">Modifications</li>
@@ -36,6 +36,7 @@
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="ToModifierPromotion">Promotion</a></li>
             <li class="nav-item"> <a class="nav-link" href="ToModifierVoyage">Voyages</a></li>
+            <li class="nav-item"> <a class="nav-link" href="ToModifierReservation">Reservation</a></li>
           </ul>
         </div>
       </li>
@@ -49,7 +50,9 @@
         </a>
         <div class="collapse" id="ui-basic">
           <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="ToListerV_Stock">Stock</a></li>
             <li class="nav-item"> <a class="nav-link" href="ToListerBouquetActivite">Activite par bouquet</a></li>
+            <li class="nav-item"> <a class="nav-link" href="ToListerFormuleComposition">Formule composition</a></li>
             <li class="nav-item"> <a class="nav-link" href="ToListerVoyage">Voyage</a></li>
             <li class="nav-item"> <a class="nav-link" href="ToListerEmploye">Employe</a></li>
             <li class="nav-item"> <a class="nav-link" href="ToListerStatistic">Statistics</a></li>

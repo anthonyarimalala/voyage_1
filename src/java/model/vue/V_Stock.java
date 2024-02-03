@@ -34,8 +34,18 @@ public class V_Stock {
     @Column(name = "restant")
     private double restant;
     
+    @Column(name = "prix_u")
+    private double prixU;
+    
+    @Column(name = "prix_totale")
+    private double prixTotale;
+    
     public static void main(String[] args) throws ClassNotFoundException, SQLException, Exception{
         Connection connection = Connex.getConnection();
+        CrudOperation crud = new CrudOperation(connection);
+        
+        System.out.println(crud.selectAll(V_Stock.class).size());
+        
     }
     
     public static void enleverStock(Connection connection, int idVoyage, double quantite){
@@ -69,6 +79,7 @@ public class V_Stock {
                 stock.setEntree(0);
                 stock.setSortie(quantiteIlainaTot);
                 stock.setIdActivite(idActivite);
+                
                 
                 crud.save(stock);
             }
@@ -105,6 +116,22 @@ public class V_Stock {
 
     public void setRestant(double restant) {
         this.restant = restant;
+    }
+
+    public double getPrixU() {
+        return prixU;
+    }
+
+    public void setPrixU(double prixU) {
+        this.prixU = prixU;
+    }
+
+    public double getPrixTotale() {
+        return prixTotale;
+    }
+
+    public void setPrixTotale(double prixTotale) {
+        this.prixTotale = prixTotale;
     }
     
     

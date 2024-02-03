@@ -96,6 +96,34 @@
         <servlet-name>InsererClientServlet</servlet-name>
         <servlet-class>servlet.insertion.InsererClientServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ToListerReservation</servlet-name>
+        <servlet-class>servlet.pages.ToListerReservation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ToModifierReservation</servlet-name>
+        <servlet-class>servlet.pages.ToModifierReservation</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifierReservationServlet</servlet-name>
+        <servlet-class>servlet.modification.ModifierReservationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ToListerFormuleComposition</servlet-name>
+        <servlet-class>servlet.pages.ToListerFormuleComposition</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ToLogin</servlet-name>
+        <servlet-class>servlet.pages.ToLogin</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ToListerDetailVoyage</servlet-name>
+        <servlet-class>servlet.pages.ToListerDetailVoyage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ToListerV_Stock</servlet-name>
+        <servlet-class>servlet.pages.ToListerV_Stock</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ToHome</servlet-name>
         <url-pattern>/ToHome</url-pattern>
@@ -191,6 +219,34 @@
     <servlet-mapping>
         <servlet-name>InsererClientServlet</servlet-name>
         <url-pattern>/InsererClientServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToListerReservation</servlet-name>
+        <url-pattern>/ToListerReservation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToModifierReservation</servlet-name>
+        <url-pattern>/ToModifierReservation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifierReservationServlet</servlet-name>
+        <url-pattern>/ModifierReservationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToListerFormuleComposition</servlet-name>
+        <url-pattern>/ToListerFormuleComposition</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToLogin</servlet-name>
+        <url-pattern>/ToLogin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToListerDetailVoyage</servlet-name>
+        <url-pattern>/ToListerDetailVoyage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ToListerV_Stock</servlet-name>
+        <url-pattern>/ToListerV_Stock</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

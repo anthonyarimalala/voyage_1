@@ -3,27 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servlet.insertion;
+package servlet.pages;
 
 import database.Connex;
 import generalise.CrudOperation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.liaison.L_FormuleComposition;
-import model.vue.V_BouquetActivite;
+import model.voyage.Voyage;
+import model.vue.V_Reservation;
 
 /**
  *
  * @author PC
  */
-public class InsererFormuleCompositionServlet extends HttpServlet {
+public class ToModifierReservation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,43 +43,65 @@ public class InsererFormuleCompositionServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InsererFormuleCompositionServlet</title>");            
+            out.println("<title>Servlet ToModifierReservation</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet InsererFormuleCompositionServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ToModifierReservation at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
             
-             try{
+            try{
                 Connection connection = Connex.getConnection();
                 CrudOperation crud = new CrudOperation(connection);
                 
-                int idLieu = Integer.parseInt(request.getParameter("idLieu"));
-                int idBouquet = Integer.parseInt(request.getParameter("idBouquet"));
-                int idDuree = Integer.parseInt(request.getParameter("idDuree"));
+                List<V_Reservation> reservations = new ArrayList<>();
+                List<Voyage> voyages = crud.selectAll(Voyage.class);
                 
-                List<V_BouquetActivite> v_bouquetServlet = crud.selectAllById(V_BouquetActivite.class , "id_bouquet", idBouquet);
+                String tableTitle = "";
                 
-                L_FormuleComposition.deleteByKeys(connection, idLieu, idBouquet, idDuree);
+                String action = request.getParameter("action");
+                String idVoyage = request.getParameter("idVoyage");
                 
-                L_FormuleComposition formule = new L_FormuleComposition();
-                formule.setIdLieu(idLieu);
-                formule.setIdBouquet(idBouquet);
-                formule.setIdDuree(idDuree);
-                
-                for(V_BouquetActivite ba: v_bouquetServlet){
-                    formule.setIdActivite(ba.getIdActivite());
-                    formule.setQuantite(Integer.parseInt(request.getParameter(String.valueOf(ba.getIdActivite()))));
-                    crud.save(formule);
+                if(action!=null && !action.isEmpty()){
+                    if(action.equals("wait")){
+                        reservations = V_Reservation.selectAllReservationWait(connection);
+                        tableTitle = "Les reservations en attentes";
+                    }else if(action.equals("validate")){
+                        reservations = V_Reservation.selectAllReservationValidate(connection);
+                        tableTitle = "Les reservations en validés";
+                    }else if(action.equals("dismissed")){
+                        reservations = V_Reservation.selectAllReservationDismissed(connection);
+                        tableTitle = "Les reservations en annulés";
+                    }else if(action.equals("all")){
+                        reservations = V_Reservation.selectAllReservation(connection);
+                        tableTitle = "Toutes les réservations";
+                    }else{
+                        reservations = V_Reservation.selectAllReservation(connection);
+                        tableTitle = "Toutes les réservations";
+                    }
+                }else if(idVoyage!=null && !idVoyage.isEmpty()){
+                    Voyage voyage = crud.selectById(Voyage.class, Integer.parseInt(idVoyage));
+                    reservations = V_Reservation.selectAllReservationByIdVoyage(connection, Integer.parseInt(idVoyage));
+                    tableTitle = "Toutes les réservations pour le voyage "+voyage.getVoyage();
+                }
+                else{
+                    reservations = V_Reservation.selectAllReservation(connection);
+                    tableTitle = "Toutes les réservations";
                 }
                 
                 
+                request.setAttribute("voyages", voyages);
+                request.setAttribute("reservations", reservations);
+                
+                request.setAttribute("tableTitle", tableTitle);
+                
                 connection.close();
-                response.sendRedirect("ToInsererFormuleComposition");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("pages/modifier/modifierReservation.jsp");
+                dispatcher.forward(request, response);
             }catch(Exception e){
                 e.printStackTrace(out);
             }
-             
+            
         }
     }
 
